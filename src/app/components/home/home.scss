@@ -1,0 +1,16 @@
+@use 'base/base' as base;
+
+:host {
+    display: block;
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: 40px 112px;
+    width: 100%;
+    background-color: base.$primary-purple;
+    color: base.$primary-orange;
+}
+
+.hero {
+    display: block;
+    margin-top: 96px;
+}

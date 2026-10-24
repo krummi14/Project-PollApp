@@ -2,3 +2,26 @@ p {
     margin-top: 24px;
     margin-bottom: 40px;
 }
+
+.new_survey_button:hover {
+    gap: 12px;
+    background-color: rgba(255, 183, 112, 1);
+    cursor: pointer;
+}
+
+.add_new_survey_circle {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+
+.new_survey_button:hover .add_new_survey_circle {
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}

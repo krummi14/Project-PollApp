@@ -1,0 +1,28 @@
+$primary-orange: rgba(255, 183, 112, 1);
+$primary-purple: rgba(53, 39, 58, 1);
+
+body {
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Nerko One', cursive;
+    font-size: 100px;
+    font-weight: 400;
+    color: $primary-orange;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Nerko One', cursive;
+    font-size: 72px;
+    font-weight: 400;
+    margin: 0;
+}
+
+p {
+    font-family: 'Mulish', sans-serif;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 1);
+    margin: 0;
+}

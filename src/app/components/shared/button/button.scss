@@ -1,4 +1,7 @@
 button {
+    display: flex;
+    align-items: center;
+    gap: 0px;
     background-color: rgba(255, 207, 161, 1);
     color: rgba(34, 18, 39, 1);
     font-family: 'Mulish', sans-serif;
@@ -7,9 +10,5 @@ button {
     padding: 12px 16px;
     border: none;
     border-radius: 10px;
-}
-
-button:hover {
-    background-color: rgba(255, 183, 112, 1);
-    cursor: pointer;
+    transition: gap 0.2s ease;
 }
