@@ -378,4 +378,4 @@ No license file is currently included. Add an explicit license before distributi
 
 <sub>Poll App · Create. Share. Vote.</sub>
 
-</div>F
+</div>

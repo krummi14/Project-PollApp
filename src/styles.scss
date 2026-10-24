@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Nerko One';
+    src: url('/assets/fonts/Nerko_One/NerkoOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('/assets/fonts/Mulish/Mulish-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('/assets/fonts/Mulish/Mulish-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nokora';
+    src: url('/assets/fonts/Nokora/Nokora-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: rgba(53, 39, 58, 1);
+    color: rgba(255, 183, 112, 1);
+    margin: 0;
+    padding: 40px 112px;
+}
+
+h1 {
+    font-family: 'Nerko One', cursive;
+    font-size: 100px;
+    font-weight: 400;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Nerko One', cursive;
+    font-size: 72px;
+    font-weight: 400;
+    margin: 0;
+}
+
+p {
+    font-family: 'Mulish', sans-serif;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 1);
+    margin: 0;
+}

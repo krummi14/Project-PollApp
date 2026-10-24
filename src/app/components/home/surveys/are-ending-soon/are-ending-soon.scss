@@ -1,0 +1,16 @@
+.survey_closing_section {
+    width: 1042px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    & p {
+        font-size: 32px;
+        font-weight: 500;
+    }
+}
+
+.list_of_ending_surveys {
+    display: flex;
+    justify-content: space-between;
+}
