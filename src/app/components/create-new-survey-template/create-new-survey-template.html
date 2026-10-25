@@ -1,7 +1,4 @@
-<body>
-    <main>
-        <app-header></app-header>
-        <section class="form"></section>
-        <app-button>Publish</app-button>
-    </main>
-</body>
+<main>
+    <app-header (close)="close.emit()"></app-header>
+    <app-survey-form></app-survey-form>
+</main>

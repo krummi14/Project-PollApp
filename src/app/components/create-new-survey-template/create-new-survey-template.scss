@@ -1,15 +1,15 @@
 @use 'base/base' as base;
 
-body {
+:host {
     display: flex;
     justify-content: center;
-    margin-top: 72px;
 }
 
 main {
     background-color: base.$primary-purple;
     border-radius: 5px 100px 5px 5px;
     box-sizing: border-box;
+    width: 1160px;
     padding: 40px 54px;
 }
 

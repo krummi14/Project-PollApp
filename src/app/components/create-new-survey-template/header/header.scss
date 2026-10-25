@@ -1,3 +1,7 @@
+:host {
+    display: block;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -5,9 +9,34 @@ header {
     margin-bottom: 32px;
 }
 
+.draft_badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 207, 161, 1);
+    color: rgba(34, 18, 39, 1);
+    font-family: Mulish;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 0 14px 0 0;
+    white-space: nowrap;
+    padding: 3px 12px;
+}
+
+.create_new_survey_header {
+    font-size: 56px;
+}
+
 .close_button {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-self: stretch;
+
+    &_context {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 2px 6px;
+    }
 }

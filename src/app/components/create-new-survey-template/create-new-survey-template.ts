@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
-import { Button } from '../shared/button/button';
+import { Component, output } from '@angular/core';
 import { Header } from './header/header';
+import { SurveyForm } from '../shared/survey-form/survey-form';
 
 @Component({
   selector: 'app-create-new-survey-template',
-  imports: [Button, Header],
+  imports: [Header, SurveyForm],
   templateUrl: './create-new-survey-template.html',
   styleUrl: './create-new-survey-template.scss',
 })
-export class CreateNewSurveyTemplate { }
+export class CreateNewSurveyTemplate {
+  readonly close = output<void>();
+}

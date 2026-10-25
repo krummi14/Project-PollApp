@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { SecondButton } from '../../shared/second-button/second-button';
 
 @Component({
@@ -7,4 +7,6 @@ import { SecondButton } from '../../shared/second-button/second-button';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {}
+export class Header {
+  readonly close = output<void>()
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { Animation } from '../animation/animation';
 import { IntroText } from '../intro-text/intro-text';
 
@@ -8,4 +8,6 @@ import { IntroText } from '../intro-text/intro-text';
   templateUrl: './new-survey.html',
   styleUrl: './new-survey.scss',
 })
-export class NewSurvey {}
+export class NewSurvey {
+  readonly createSurvey = output<void>();
+}
