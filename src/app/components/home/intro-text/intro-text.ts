@@ -8,6 +8,4 @@ import { RouterLink } from '@angular/router';
   templateUrl: './intro-text.html',
   styleUrl: './intro-text.scss',
 })
-export class IntroText {
-  path = "";
-}
+export class IntroText {}

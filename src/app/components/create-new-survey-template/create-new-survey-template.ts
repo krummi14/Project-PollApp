@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SecondButton } from '../shared/second-button/second-button';
 import { Button } from '../shared/button/button';
+import { Header } from './header/header';
 
 @Component({
   selector: 'app-create-new-survey-template',
-  imports: [SecondButton, Button],
+  imports: [Button, Header],
   templateUrl: './create-new-survey-template.html',
   styleUrl: './create-new-survey-template.scss',
 })

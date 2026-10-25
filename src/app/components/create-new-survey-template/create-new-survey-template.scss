@@ -13,23 +13,9 @@ main {
     padding: 40px 54px;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-}
-
-.close_button {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-self: stretch;
-}
-
 .form {
     width: 1052px;
     height: 500px;
-    background-color: #433349;
+    background-color: rgba(67, 51, 73, 1);
     border-radius: 5px 80px 5px 5px;
 }

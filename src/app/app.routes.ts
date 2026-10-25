@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/home/home';
 import { CreateNewSurveyTemplate } from './components/create-new-survey-template/create-new-survey-template';
+import { Home } from './components/home/home';
 
 export const routes: Routes = [
     { path: "", component: Home },
