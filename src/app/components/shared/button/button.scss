@@ -1,5 +1,5 @@
 button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0px;
     background-color: rgba(255, 207, 161, 1);
@@ -13,22 +13,23 @@ button {
     transition: gap 0.2s ease;
 }
 
-.new_survey_button:hover {
+button:hover {
     gap: 12px;
     background-color: rgba(255, 183, 112, 1);
     cursor: pointer;
 }
 
-.new_survey_img {
+#addNewSurveyImg,
+#checkNewSurveyImg {
     width: 0;
     height: 0;
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+    transition: width 0.2s ease, height 0.2s ease, opacity 0.4s ease, visibility 0s linear 0.4s;
 }
 
-.new_survey_button:hover #addNewSurveyImg {
+button:hover #addNewSurveyImg {
     width: 24px;
     height: 24px;
     opacity: 1;
@@ -36,7 +37,7 @@ button {
     transition-delay: 0s;
 }
 
-.new_survey_button:hover #checkNewSurveyImg {
+button:hover #checkNewSurveyImg {
     width: 18px;
     height: 18px;
     opacity: 1;
