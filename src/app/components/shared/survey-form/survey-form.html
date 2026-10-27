@@ -1,25 +1,50 @@
 <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
     <fieldset>
         <header class="fieldset_header">
-            <div>
+            <section class="fieldset_header_left_part">
                 <label for="name">Survey Name</label>
-                <input id="name" formControlName="name" type="text">
-                <label for="date">Set end date</label>
-                <input id="date" formControlName="date" type="date">
-            </div>
+                <div class="input_field_with_delete_button">
+                    <input id="name" formControlName="name" type="text" />
+                    <app-delete-button />
+                </div>
+                <div class="date_and_category">
+                    <div>
+                        <label for="date">Set end date <p class="optional">(optional)</p></label>
+                        <div class="input_field_with_delete_button">
+                            <input id="date" formControlName="date" type="date">
+                            <app-delete-button />
+                        </div>
+                    </div>
 
-            <div>
-                <label for="describing">Describing text</label>
-                <textarea id="describing" formControlName="describing"></textarea>
-            </div>
+                    <select name="choose category" id="chooseCategory">
+                        <option value="choose category" disabled selected>Choose category</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="fieldset_header_right_part">
+                <label for="description">Describing text <p class="optional">(optional)</p></label>
+                <div class="input_field_with_delete_button">
+                    <textarea id="description" formControlName="description"></textarea>
+                    <app-delete-button />
+                </div>
+            </section>
         </header>
 
-        <section class="add_question" id="addQuestion">
-            <app-add-new-question></app-add-new-question>
-        </section>
+        <main class="add_question" id="addQuestion">
+            @for (questionForm of questions.controls; track $index) {
+            <app-add-new-question [questionForm]="questionForm" [questionNumber]="$index + 1"></app-add-new-question>
+            }
+            <div class="add_another_question">
+                <app-second-button (click)="addQuestion()">
+                    Add next question
+                    <img src="assets/icons/add_circle_white.svg" alt="Add Icon">
+                </app-second-button>
+            </div>
+        </main>
     </fieldset>
 
-    <section class="submit_button">
-        <app-button icon="check">Publish</app-button>
-    </section>
+    <footer class="publish_button">
+        <app-button type="submit" icon="check">Publish</app-button>
+    </footer>
 </form>

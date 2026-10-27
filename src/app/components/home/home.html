@@ -5,7 +5,7 @@
 </main>
 
 @if (isCreateSurveyDialogOpen) {
-<div class="dialog-overlay" (click)="isCreateSurveyDialogOpen = false">
+<div class="create_new_survey_overlay" (click)="isCreateSurveyDialogOpen = false">
     <app-create-new-survey-template (close)="isCreateSurveyDialogOpen = false"
         (click)="$event.stopPropagation()"></app-create-new-survey-template>
 </div>

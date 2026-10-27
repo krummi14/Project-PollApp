@@ -1,0 +1,15 @@
+.rubbish_icon {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    background: url("/assets/icons/rubbish_white.svg") center / contain no-repeat;
+    cursor: pointer;
+}
+
+.rubbish_icon:hover,
+.rubbish_icon:focus-visible {
+    background-image: url("/assets/icons/rubbish_black.svg");
+}

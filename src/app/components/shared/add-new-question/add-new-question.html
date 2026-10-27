@@ -1,12 +1,25 @@
-<section class="question">
-    <label for="question">{{ questionNumber }}. Question</label>
-    <input id="question" type="text">
-    <label for="answer">Answer</label>
-    @for (item of answerNumbers.slice(0, answersCount ); track $index) {
-    <p>{{ item }}. <input id="answer-{{ $index }}" type="text" name="answer-{{ $index }}"></p>
-    }
+<section class="question " [formGroup]="questionForm()">
+    <div class="question_content">
+        <div class="question_header">
+            <label for="question-{{ questionNumber() }}">{{ questionNumber() }}. Question </label>
+            <div class="multiple_choice_button">
+                <input id="multipleChoice-{{ questionNumber() }}" type="checkbox" formControlName="multipleChoice" />
+                <label for="multipleChoice-{{ questionNumber() }}">Allow multiple answers.</label>
+            </div>
+        </div>
+        <p class="input_with_delete">
+            <input id="question-{{ questionNumber() }}" type="text" formControlName="question">
+            <app-delete-button />
+        </p>
+        <label for="answer">Answer</label>
+        <div class="question_and_answer" formArrayName="answers">
+            @for (answer of answers.controls; track $index) {
+            <p class="input_with_delete">{{ answerOpportunities[$index] }}. <input
+                    id="answer-{{ questionNumber() }}-{{ $index }}" type="text" [formControlName]="$index">
+                <app-delete-button />
+            </p>
+            }
+        </div>
+        <app-add-new-answer-button (add)="addAnswer()"></app-add-new-answer-button>
+    </div>
 </section>
-
-<app-second-button (click)="addQuestion()">Add next question
-    <img src="assets/icons/add_circle_white.svg" width="24px" height="24px" alt="White Add Icon">
-</app-second-button>

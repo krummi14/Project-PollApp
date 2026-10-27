@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 
 export class Button {
   readonly icon = input<'plus' | 'check'>('plus');
+  readonly type = input<'button' | 'submit'>('button');
 }

@@ -4,46 +4,115 @@
 
 form {
     width: 100%;
-    max-width: 1052px;
 }
 
 label {
-    display: block;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 1);
     font-family: Mulish;
     font-weight: 700;
     font-style: Bold;
     font-size: 18px;
+    margin-top: 8px;
+    margin-bottom: 4px;
 }
 
 fieldset {
-    background-color: #433349;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    background-color: rgba(67, 51, 73, 1);
     border: none;
     border-radius: 5px 80px 5px 5px;
+    box-sizing: border-box;
+    padding: 40px 32px;
 }
 
 .fieldset_header {
     display: flex;
-    justify-content: space-around;
     box-sizing: border-box;
-    padding: 40px 32px
+    gap: 64px;
+
+    &_left_part {
+        width: 50%;
+    }
+
+    &_right_part {
+        width: 50%;
+    }
+}
+
+.optional {
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 18px;
 }
 
 input {
-    height: 37px;
+    height: 40px;
     border-radius: 5px 20px 5px 5px;
+}
+
+.input_field_with_delete_button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 8px;
+
+    input,
+    textarea {
+        flex: 1;
+    }
 }
 
 textarea {
-    height: 100px;
+    height: 104px;
     border-radius: 5px 20px 5px 5px;
 }
 
-.submit_button {
-    margin-top: 20px;
+.publish_button {
+    margin-top: 40px;
     width: 100%;
     display: flex;
     justify-content: end;
+}
+
+.date_and_category {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+
+    >div {
+        flex: 1;
+        min-width: 0;
+    }
+
+    & select {
+        font-family: Mulish;
+        font-weight: 700;
+        font-size: 16px;
+        color: #fff;
+        border: none;
+        background: none;
+        margin-top: 12px;
+    }
+}
+
+.add_question {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+}
+
+.add_another_question {
+    align-self: start;
+
+    & img {
+        width: 24px;
+        height: 24px;
+    }
 }
