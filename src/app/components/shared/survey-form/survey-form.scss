@@ -14,7 +14,6 @@ label {
     color: rgba(255, 255, 255, 1);
     font-family: Mulish;
     font-weight: 700;
-    font-style: Bold;
     font-size: 18px;
     margin-top: 8px;
     margin-bottom: 4px;
@@ -47,13 +46,14 @@ fieldset {
 
 .optional {
     font-weight: 400;
-    font-style: Regular;
     font-size: 18px;
 }
 
 input {
     height: 40px;
     border-radius: 5px 20px 5px 5px;
+    padding: 0 8px;
+    font-size: 20px;
 }
 
 .input_field_with_delete_button {
@@ -71,6 +71,8 @@ input {
 textarea {
     height: 104px;
     border-radius: 5px 20px 5px 5px;
+    padding: 0 8px;
+    font-size: 20px;
 }
 
 .publish_button {
@@ -80,10 +82,20 @@ textarea {
     justify-content: end;
 }
 
+.category_dropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 1;
+}
+
 .date_and_category {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 12px;
     width: 100%;
 
     >div {
@@ -92,14 +104,53 @@ textarea {
     }
 
     & select {
-        font-family: Mulish;
+        appearance: none;
+        -webkit-appearance: none;
+        font-family: 'Mulish', sans-serif;
         font-weight: 700;
-        font-size: 16px;
-        color: #fff;
+        font-size: 18px;
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(67, 51, 73, 1);
         border: none;
-        background: none;
-        margin-top: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: background-color 150ms ease;
+        margin-top: 8px;
+        padding: 4px 6px;
     }
+
+    & select:hover,
+    select:focus-visible {
+        background-color: #5b4e60;
+        outline: none;
+    }
+}
+
+.category_dropdown {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.category_arrow {
+    position: absolute;
+    top: 60%;
+    right: 8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(255, 255, 255, 1);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: border-top-color 150ms ease;
+}
+
+.category_dropdown:hover .category_arrow,
+.category_dropdown:focus-within .category_arrow {
+    border-top-color: #ffc77f;
 }
 
 .add_question {

@@ -5,20 +5,31 @@
                 <label for="name">Survey Name</label>
                 <div class="input_field_with_delete_button">
                     <input id="name" formControlName="name" type="text" />
-                    <app-delete-button />
+                    <app-delete-button (click)="delete('name')" />
                 </div>
                 <div class="date_and_category">
                     <div>
                         <label for="date">Set end date <p class="optional">(optional)</p></label>
                         <div class="input_field_with_delete_button">
                             <input id="date" formControlName="date" type="date">
-                            <app-delete-button />
+                            <app-delete-button (click)="delete('date')" />
                         </div>
                     </div>
-
-                    <select name="choose category" id="chooseCategory">
-                        <option value="choose category" disabled selected>Choose category</option>
-                    </select>
+                    <div class="category_dropdown">
+                        <select class="choose_category" name="choose category" id="chooseCategory"
+                            formControlName="category">>
+                            <option value="" hidden selected>Choose category</option>
+                            <option value="allSurveys">All Surveys</option>
+                            <option value="teamActivities">Team Activities</option>
+                            <option value="healthAndWellness">Health & Wellness</option>
+                            <option value="gaming">Gaming & Entertainment</option>
+                            <option value="educationAndLearning">Education & Learning</option>
+                            <option value="lifestyleAndPreferences">Lifestyle & Preferences</option>
+                            <option value="educationAndLearning">Education & Learning</option>
+                            <option value="technologyAndInnovation">Technology & Innovation</option>
+                        </select>
+                        <span class="category_arrow"></span>
+                    </div>
                 </div>
             </section>
 
@@ -26,7 +37,7 @@
                 <label for="description">Describing text <p class="optional">(optional)</p></label>
                 <div class="input_field_with_delete_button">
                     <textarea id="description" formControlName="description"></textarea>
-                    <app-delete-button />
+                    <app-delete-button (click)="delete('description')" />
                 </div>
             </section>
         </header>

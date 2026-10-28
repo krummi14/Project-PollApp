@@ -2,24 +2,26 @@
     <div class="question_content">
         <div class="question_header">
             <label for="question-{{ questionNumber() }}">{{ questionNumber() }}. Question </label>
+            <app-delete-button (click)="delete('question')" />
+        </div>
+        <p class="input_with_delete">
+            <input id="question-{{ questionNumber() }}" type="text" formControlName="question">
+        </p>
+        <div class="answers_multiple_choice">
+            <label for="answer">Answers</label>
             <div class="multiple_choice_button">
                 <input id="multipleChoice-{{ questionNumber() }}" type="checkbox" formControlName="multipleChoice" />
                 <label for="multipleChoice-{{ questionNumber() }}">Allow multiple answers.</label>
             </div>
         </div>
-        <p class="input_with_delete">
-            <input id="question-{{ questionNumber() }}" type="text" formControlName="question">
-            <app-delete-button />
-        </p>
-        <label for="answer">Answer</label>
         <div class="question_and_answer" formArrayName="answers">
             @for (answer of answers.controls; track $index) {
             <p class="input_with_delete">{{ answerOpportunities[$index] }}. <input
                     id="answer-{{ questionNumber() }}-{{ $index }}" type="text" [formControlName]="$index">
-                <app-delete-button />
+                <app-delete-button (click)="delete('answers', $index)" />
             </p>
             }
         </div>
-        <app-add-new-answer-button (add)="addAnswer()"></app-add-new-answer-button>
+        <app-add-new-answer-button (add)=" addAnswer()"></app-add-new-answer-button>
     </div>
 </section>

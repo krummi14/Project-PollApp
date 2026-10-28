@@ -5,11 +5,24 @@
     height: 26px;
     padding: 0;
     border: 0;
-    background: url("/assets/icons/rubbish_white.svg") center / contain no-repeat;
+    background: transparent;
     cursor: pointer;
+}
+
+.rubbish_icon::before {
+    content: "";
+    width: 18px;
+    height: 20px;
+    background: url("/assets/icons/rubbish_white.svg") center / contain no-repeat;
 }
 
 .rubbish_icon:hover,
 .rubbish_icon:focus-visible {
+    background-color: rgba(255, 207, 161, 1);
+    border-radius: 3px;
+}
+
+.rubbish_icon:hover::before,
+.rubbish_icon:focus-visible::before {
     background-image: url("/assets/icons/rubbish_black.svg");
 }

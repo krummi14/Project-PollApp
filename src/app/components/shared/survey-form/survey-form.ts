@@ -16,6 +16,7 @@ export class SurveyForm {
   surveyForm = new FormGroup({
     name: new FormControl(''),
     date: new FormControl(new Date(2026, 10, 25)),
+    category: new FormControl(''),
     description: new FormControl(''),
     question: new FormArray([this.createQuestionForm()]),
   });
@@ -46,5 +47,21 @@ export class SurveyForm {
         new FormControl(''),
       ]),
     });
+  }
+
+  delete(field: string) {
+    switch (field) {
+      case 'name':
+        this.surveyForm.controls.name.reset('');
+        break;
+      case 'date':
+        this.surveyForm.controls.date.reset(new Date(2023, 4, 11));
+        break;
+      case 'describing':
+        this.surveyForm.controls.description.reset('');
+        break;
+      default:
+        break;
+    }
   }
 }
