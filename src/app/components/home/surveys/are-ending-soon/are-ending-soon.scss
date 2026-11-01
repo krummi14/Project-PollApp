@@ -3,14 +3,33 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-
-    & p {
-        font-size: 32px;
-        font-weight: 500;
-    }
 }
 
 .list_of_ending_surveys {
     display: flex;
     justify-content: space-between;
+}
+
+.survey_card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &_header {
+        font-family: 'Mulish', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        color: rgba(53, 39, 58, 1.0);
+    }
+
+    &_footer {
+        width: fit-content;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        color: rgba(53, 39, 58, 1.0);
+        background: rgba(255, 207, 161, 1);
+        padding: 4px 8px;
+        border-top-right-radius: 16px;
+    }
 }

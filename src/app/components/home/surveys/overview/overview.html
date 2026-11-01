@@ -6,5 +6,13 @@
         </div>
         <app-dropdown-menu></app-dropdown-menu>
     </div>
-    <div class="survey_list" id="surveyList"></div>
+    <div class="survey_list" id="surveyList">
+        @for (survey of allSurveys(); track $index) {
+        <app-card>
+            <p> {{ survey.category }} </p>
+            <h5> {{ survey.name }} </h5>
+            <p>Ends in {{ surveyEndsIn(survey.date) }} days</p>
+        </app-card>
+        }
+    </div>
 </section>

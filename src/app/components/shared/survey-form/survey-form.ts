@@ -31,7 +31,7 @@ export class SurveyForm {
       const value = this.surveyForm.getRawValue();
       const surveyData = new Surveytemplate({
         name: value.name ?? '',
-        date: value.date ?? new Date(2023, 4, 11),
+        date: value.date ?? new Date(2026, 1, 11),
         category: value.category ?? '',
         description: value.description ?? '',
         questions: value.question.map((question) => ({
@@ -44,7 +44,7 @@ export class SurveyForm {
       await this.surveyService.saveSurvey(surveyData);
 
       this.surveyForm.controls.name.reset('');
-      this.surveyForm.controls.date.reset(new Date(2023, 4, 11));
+      this.surveyForm.controls.date.reset(new Date(2026, 31, 10));
       this.surveyForm.controls.description.reset('');
       this.questions.clear();
       this.questions.push(this.createQuestionForm());
@@ -74,7 +74,7 @@ export class SurveyForm {
         this.surveyForm.controls.name.reset('');
         break;
       case 'date':
-        this.surveyForm.controls.date.reset(new Date(2023, 4, 11));
+        this.surveyForm.controls.date.reset(new Date(2026, 10, 31));
         break;
       case 'describing':
         this.surveyForm.controls.description.reset('');

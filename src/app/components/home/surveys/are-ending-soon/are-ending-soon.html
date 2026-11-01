@@ -1,10 +1,14 @@
 <section class="survey_closing_section">
     <p>Ending soon surveys</p>
-
-    <div class="list_of_ending_surveys">
-        <app-ending-survey></app-ending-survey>
-        <app-ending-survey></app-ending-survey>
-        <app-ending-survey></app-ending-survey>
+    <div id="allEndingSurveys" class="list_of_ending_surveys">
+        @for (survey of surveysEndingSoon(); track $index) {
+        <app-ending-survey>
+            <div class="survey_card">
+                <p class="survey_card_header">{{ survey.category }}</p>
+                <h4>{{ survey.name }}</h4>
+            </div>
+            <p class="survey_card_footer">Ends in {{ surveyEndsIn(survey.date) }} days</p>
+        </app-ending-survey>
+        }
     </div>
-
 </section>
