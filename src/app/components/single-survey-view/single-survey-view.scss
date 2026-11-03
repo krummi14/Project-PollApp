@@ -1,0 +1,10 @@
+.survey_editor {
+    display: flex;
+    flex-direction: column;
+    padding: 42px 111px 0px 111px;
+
+    &_header {
+        display: flex;
+        justify-content: space-between;
+    }
+}

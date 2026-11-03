@@ -4,10 +4,12 @@ import { Card } from './card/card';
 import { Supabase } from '../../../shared/services/supabase';
 import { Survey } from '../../../shared/interfaces/survey';
 import { surveyEndsIn } from '../../../shared/utils/ends-in-days';
+import { RouterLink } from '@angular/router';
+import { SelectorButton } from './selector-button/selector-button';
 
 @Component({
   selector: 'app-overview',
-  imports: [DropdownMenu, Card],
+  imports: [DropdownMenu, Card, RouterLink, SelectorButton],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })

@@ -1,4 +1,5 @@
 export interface Survey {
+  id?: number;
   name: string;
   date: Date;
   category: string;

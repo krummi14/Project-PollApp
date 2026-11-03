@@ -1,17 +1,19 @@
 <section class="general_overview">
     <div class="general_overview_header">
         <div class="general_overview_header_buttons">
-            <button>Active servey</button>
-            <button>Past servey</button>
+            <app-selector-button>Active survey</app-selector-button>
+            <app-selector-button>Past survey</app-selector-button>
         </div>
         <app-dropdown-menu></app-dropdown-menu>
     </div>
     <div class="survey_list" id="surveyList">
         @for (survey of allSurveys(); track $index) {
-        <app-card>
-            <p> {{ survey.category }} </p>
-            <h5> {{ survey.name }} </h5>
-            <p>Ends in {{ surveyEndsIn(survey.date) }} days</p>
+        <app-card class="survey_card" [routerLink]="['/showSingleSurvey', survey.id]">
+            <div>
+                <p class="survey_card_category"> {{ survey.category }} </p>
+                <h5 class="survey_card_title"> {{ survey.name }} </h5>
+            </div>
+            <p class="survey_card_ends_in">Ends in {{ surveyEndsIn(survey.date) }} days</p>
         </app-card>
         }
     </div>
