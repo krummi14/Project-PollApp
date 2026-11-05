@@ -16,13 +16,21 @@ export class Supabase {
     if (error) {
       throw error;
     }
-
     return data;
   }
 
   async saveSurvey(survey: Surveytemplate) {
     const { error } = await this.supabase.from('surveys').insert(survey);
+    if (error) {
+      throw error;
+    }
+  }
 
+  async submitVote(surveyId: number, vote: Record<string, boolean>) {
+    const { error } = await this.supabase.from('survey_responses').insert({
+      survey_id: surveyId,
+      responses: vote,
+    });
     if (error) {
       throw error;
     }

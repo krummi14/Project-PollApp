@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './second-button.html',
   styleUrl: './second-button.scss',
 })
-export class SecondButton {}
+export class SecondButton { }

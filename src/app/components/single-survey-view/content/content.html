@@ -11,13 +11,25 @@
     <h3>{{ selectedSurvey.name }}</h3>
     <p>{{ selectedSurvey.description }}</p>
 
-    @for (question of selectedSurvey.questions; track $index) {
-    <h4>{{ question.question }}</h4>
+    <form [formGroup]="surveyResponseForm" (ngSubmit)="onSubmit()">
 
-    @for (answer of question.answers; track $index) {
-    <p>{{ loadAnswerOpertunities($index) }}. {{ answer }}</p>
-    }
-    }
+        @for (survey of selectedSurvey.questions; track $index; let questionIndex = $index) {
+        <div>
+            <h4>{{ survey.question | addQuestionMark | capitalize }}</h4>
+
+            @for (answer of survey.answers; track $index; let answerIndex = $index) {
+            <div class="vote_container">
+                <input type="checkbox" [id]="getControlName(questionIndex, answerIndex)"
+                    [formControlName]="getControlName(questionIndex, answerIndex)">
+                <p>{{ getAnswerLabel(answerIndex) }}. {{ answer }}</p>
+            </div>
+            }
+        </div>
+        }
+
+        <app-second-button type="submit">Complete survey</app-second-button>
+
+    </form>
     }
 
 </main>
