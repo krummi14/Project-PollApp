@@ -1,0 +1,30 @@
+.content {
+    width: 700px;
+    padding: 40px;
+    border-top-right-radius: 160px;
+    background-color: rgba(142, 112, 153, 0.1);
+
+    &_published {
+        font-size: 16px;
+        font-family: Mulish;
+        font-weight: 600;
+        font-size: 16px;
+        width: fit-content;
+        border-top-right-radius: 14px;
+        background-color: rgba(255, 183, 112, 1);
+        margin-bottom: 8px;
+        padding: 3px 12px 3px 8px;
+    }
+
+    &_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & p {
+            font-size: 14px;
+            font-family: Mulish;
+            font-weight: 500;
+        }
+    }
+}

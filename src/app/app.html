@@ -1,1 +1,8 @@
 <router-outlet />
+
+@if (dialog.openedCreateSurveyDialog()) {
+<div class="create_new_survey_overlay" (click)="dialog.closeCreateSurveyDialog()">
+    <app-create-new-survey-template (close)="dialog.closeCreateSurveyDialog()"
+        (click)="$event.stopPropagation()"></app-create-new-survey-template>
+</div>
+}

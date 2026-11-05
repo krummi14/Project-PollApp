@@ -3,12 +3,13 @@
     <header class="survey_editor_header">
         <img src="/assets/img/poll_speaking_bubble_black.png" alt="Poll App Dark Logo" width="120px" height="44px">
 
-        <app-button>
+        <app-button (click)="dialog.openCreateSurveyDialog()">
             Create survey
         </app-button>
     </header>
 
-
-    @if (survey(); as selectedSurvey) {
-    <h1>{{ selectedSurvey.name }}</h1>
-    }
+    <section class="content_and_results">
+        <app-content></app-content>
+        <app-results></app-results>
+    </section>
+</section>

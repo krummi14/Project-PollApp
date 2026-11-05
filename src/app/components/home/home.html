@@ -1,12 +1,6 @@
 <main>
     <app-header></app-header>
-    <app-new-survey (createSurvey)="isCreateSurveyDialogOpen = true"></app-new-survey>
+    <app-new-survey (createSurvey)="openCreateSurveyDialog()"></app-new-survey>
     <app-surveys></app-surveys>
 </main>
 
-@if (isCreateSurveyDialogOpen) {
-<div class="create_new_survey_overlay" (click)="isCreateSurveyDialogOpen = false">
-    <app-create-new-survey-template (close)="isCreateSurveyDialogOpen = false"
-        (click)="$event.stopPropagation()"></app-create-new-survey-template>
-</div>
-}
