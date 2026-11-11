@@ -1,3 +1,5 @@
+import { SurveyResponse } from "./survey-response";
+
 export interface Survey {
   id?: number;
   name: string;
@@ -5,6 +7,7 @@ export interface Survey {
   category: string;
   description: string;
   questions: Question[];
+  response?: SurveyResponse;
 }
 
 export interface Question {

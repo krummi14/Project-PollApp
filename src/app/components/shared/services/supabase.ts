@@ -62,5 +62,19 @@ export class SupabaseService {
       throw error;
     }
   }
+
+  async getSurveyResponse(surveyId: number): Promise<SurveyResponse | null> {
+    const { data, error } = await this.supabase
+      .from('survey_responses')
+      .select('responses')
+      .eq('survey_id', surveyId)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.responses ?? null;
+  }
 }
 

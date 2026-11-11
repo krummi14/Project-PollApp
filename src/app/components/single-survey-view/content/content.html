@@ -11,10 +11,10 @@
     <h3>{{ selectedSurvey.name }}</h3>
     <p>{{ selectedSurvey.description }}</p>
 
-    <form [formGroup]="surveyResponseForm" (ngSubmit)="onSubmit()">
+    <form class="content_form" [formGroup]="surveyResponseForm" (ngSubmit)="onSubmit()">
 
         @for (survey of selectedSurvey.questions; track $index; let questionIndex = $index) {
-        <div>
+        <div class="content_question">
             <h4>{{ survey.question | addQuestionMark | capitalize }}</h4>
 
             @for (answer of survey.answers; track $index; let answerIndex = $index) {
@@ -27,7 +27,7 @@
         </div>
         }
 
-        <app-second-button type="submit">Complete survey</app-second-button>
+        <app-second-button class="content_submit" type="submit">Complete survey</app-second-button>
 
     </form>
     }

@@ -27,6 +27,23 @@
             font-weight: 500;
         }
     }
+
+    &_form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    &_question {
+        display: grid;
+        align-content: start;
+        gap: 8px;
+    }
+
+    &_submit {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
 }
 
 .vote_container {

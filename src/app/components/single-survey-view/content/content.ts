@@ -26,17 +26,19 @@ export class Content {
 
   async ngOnInit() {
     const surveys = await this.dbService.getAllSurveys() ?? [];
-    const survey = surveys.find((item) => String(item.id) == this.surveyId);
-    if (survey) {
-      survey.questions = JSON.parse(survey.questions as any);
-      this.survey.set(survey);
-      for (const [questionIndex, question] of (survey?.questions ?? []).entries()) {
-        for (const answerIndex of question.answers.keys()) {
-          this.surveyResponseForm.addControl(
-            this.getControlName(questionIndex, answerIndex),
-            new FormControl(false, { nonNullable: true }),
-          );
-        }
+    const survey = surveys.find(
+      (item) => String(item.id) == this.surveyId
+    );
+    if (!survey) {
+      return;
+    }
+    this.survey.set(survey);
+    for (const [questionIndex, question] of survey.questions.entries()) {
+      for (const answerIndex of question.answers.keys()) {
+        this.surveyResponseForm.addControl(
+          this.getControlName(questionIndex, answerIndex),
+          new FormControl(false, { nonNullable: true }),
+        );
       }
     }
   }

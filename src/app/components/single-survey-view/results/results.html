@@ -1,4 +1,5 @@
 <h6>Survey Results <span>LIVE</span></h6>
+
 @if (isLoading()) {
 <p>Survey is loading.</p>
 
@@ -7,13 +8,35 @@
 
 } @else if (survey(); as selectedSurvey) {
 
-@for (selected of selectedSurvey.questions; track $index) {
-<p class="question">{{ $index + 1 }}. {{ selected.question | addQuestionMark | capitalize }}</p>
-@for (option of selected.answers; track $index) {
+@for (selected of selectedSurvey.questions; track $index; let questionIndex = $index) {
+
+@if (selected.question.trim()) {
+
+<p class="question">
+    {{ questionIndex + 1 }}. {{ selected.question | addQuestionMark | capitalize }}
+</p>
+
+@for (option of selected.answers; track $index; let answerIndex = $index) {
+
 <section class="answer_bar">
-    <p class="answer_bar_label">{{ getAnswerLabel($index) }}</p>
-    <progress value="7" max="10">70%</progress>
+
+    <p class="answer_bar_label">
+        {{ getAnswerLabel(answerIndex) }}
+    </p>
+
+    <app-progress-bar [value]="getAnswerVoteCount(selectedSurvey, questionIndex, answerIndex)"
+        [max]="getQuestionVoteCount(selectedSurvey, questionIndex) || 1">
+
+        {{ getAnswerVotePercentage(selectedSurvey, questionIndex, answerIndex) }}%
+
+    </app-progress-bar>
+
+    <p class="answer_bar_percentage">
+        {{ getAnswerVotePercentage(selectedSurvey, questionIndex, answerIndex) }}%
+    </p>
+
 </section>
+}
 }
 }
 

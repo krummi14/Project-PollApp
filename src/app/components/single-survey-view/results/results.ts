@@ -4,10 +4,13 @@ import { CapitalizePipe } from '../../shared/pipes/capitalize-pipe';
 import { SupabaseService } from '../../shared/services/supabase';
 import { ActivatedRoute } from '@angular/router';
 import { Survey } from '../../shared/interfaces/survey';
+import { ProgressBar } from '../../shared/progress-bar/progress-bar';
+import { getAnswerVoteCount, getAnswerVotePercentage, getQuestionVoteCount } from '../../shared/utils/response-statistic';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-results',
-  imports: [AddQuestionMarkPipe, CapitalizePipe],
+  imports: [AddQuestionMarkPipe, CapitalizePipe, ProgressBar, JsonPipe],
   templateUrl: './results.html',
   styleUrl: './results.scss',
 })
@@ -22,17 +25,35 @@ export class Results {
     return String.fromCharCode(65 + index);
   }
 
+  readonly getAnswerVoteCount = getAnswerVoteCount;
+  readonly getQuestionVoteCount = getQuestionVoteCount;
+  readonly getAnswerVotePercentage = getAnswerVotePercentage;
+
   async ngOnInit() {
     try {
       const surveys = await this.dbService.getAllSurveys() ?? [];
 
-      this.survey.set(surveys.find((survey) => String(survey.id) === this.surveyId));
+      const survey = surveys.find(
+        (item) => String(item.id) === this.surveyId
+      );
+
+      if (!survey) {
+        return;
+      }
+
+      if (survey.id !== undefined) {
+        survey.response = await this.dbService.getSurveyResponse(survey.id) ?? undefined;
+      }
+
+      this.survey.set(survey);
+
     } catch (error) {
       const message = error instanceof Error
         ? error.message
-        : 'The surveys could not be loaded.';
+        : 'The survey could not be loaded.';
 
       this.loadError.set(message);
+
     } finally {
       this.isLoading.set(false);
     }

@@ -1,0 +1,28 @@
+.progress_bar {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: rgba(237, 237, 237, 1);
+    height: 14px;
+    width: 256px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+
+    &::-webkit-progress-bar {
+        background-color: rgba(237, 237, 237, 1);
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    &::-moz-progress-bar {
+        background-color: rgba(255, 183, 112, 1);
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    &::-webkit-progress-value {
+        background-color: rgba(255, 183, 112, 1);
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+}

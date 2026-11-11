@@ -6,29 +6,42 @@ h6 {
     margin-bottom: 16px;
 
     & span {
-        color: #ffb770;
+        color: rgba(255, 183, 112, 1);
     }
 }
 
 .question {
+    font-size: 18px;
     font-family: Mulish;
     font-weight: 700;
-    font-style: Bold;
-    font-size: 18px;
+    color: rgba(53, 39, 58, 1);
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .answer_bar {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
     margin-bottom: 8px;
 
     &_label {
+        font-size: 14px;
         font-family: Mulish;
         font-weight: 700;
-        font-size: 14px;
+        color: rgba(53, 39, 58, 1);
         line-height: 100%;
         letter-spacing: 0%;
         vertical-align: middle;
+    }
+
+    &_percentage {
+        font-size: 14px;
+        font-family: Mulish;
+        font-weight: 800;
+        line-height: 100%;
+        letter-spacing: 0%;
+        text-align: right;
+        color: rgba(215, 148, 81, 1)
     }
 }
