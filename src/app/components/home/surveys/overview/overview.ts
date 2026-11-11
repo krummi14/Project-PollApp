@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { DropdownMenu } from '../../../shared/dropdown-menu/dropdown-menu';
 import { Card } from './card/card';
-import { Supabase } from '../../../shared/services/supabase';
+import { SupabaseService } from '../../../shared/services/supabase';
 import { Survey } from '../../../shared/interfaces/survey';
 import { surveyEndsIn } from '../../../shared/utils/ends-in-days';
 import { RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { SelectorButton } from './selector-button/selector-button';
   styleUrl: './overview.scss',
 })
 export class Overview {
-  readonly surveyService = inject(Supabase);
+  readonly surveyService = inject(SupabaseService);
   readonly allSurveys = signal<Survey[]>([]);
   readonly surveyEndsIn = surveyEndsIn;
 
@@ -23,7 +23,7 @@ export class Overview {
   }
 
   async loadAllSurveys() {
-    const surveys = (await this.surveyService.getSurveys()) ?? []
+    const surveys = (await this.surveyService.getAllSurveys()) ?? []
     this.allSurveys.set(surveys);
     return surveys;
   }

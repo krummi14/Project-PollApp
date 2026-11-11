@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { EndingSurvey } from './ending-survey/ending-survey';
-import { Supabase } from '../../../shared/services/supabase';
+import { SupabaseService } from '../../../shared/services/supabase';
 import { Survey } from '../../../shared/interfaces/survey';
 import { surveyEndsIn } from '../../../shared/utils/ends-in-days';
 import { loadSurveysEndingSoon } from '../../../shared/utils/surveys-ending-soon';
@@ -12,7 +12,7 @@ import { loadSurveysEndingSoon } from '../../../shared/utils/surveys-ending-soon
   styleUrl: './are-ending-soon.scss',
 })
 export class AreEndingSoon {
-  readonly surveyService = inject(Supabase);
+  readonly surveyService = inject(SupabaseService);
   readonly surveysEndingSoon = signal<Survey[]>([]);
   readonly surveyEndsIn = surveyEndsIn;
 
@@ -21,7 +21,7 @@ export class AreEndingSoon {
   }
 
   async loadSurveysEndingSoon() {
-    const surveys = (await this.surveyService.getSurveys()) ?? [];
+    const surveys = (await this.surveyService.getAllSurveys()) ?? [];
     this.surveysEndingSoon.set(loadSurveysEndingSoon(surveys));
   }
 }

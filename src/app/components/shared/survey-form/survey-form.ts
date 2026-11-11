@@ -4,7 +4,7 @@ import { Button } from '../button/button';
 import { AddNewQuestion, QuestionForm } from '../add-new-question/add-new-question';
 import { DeleteButton } from '../delete-button/delete-button';
 import { SecondButton } from '../second-button/second-button';
-import { Supabase } from '../services/supabase';
+import { SupabaseService } from '../services/supabase';
 import { Surveytemplate } from '../templates/surveytemplate';
 
 @Component({
@@ -24,7 +24,7 @@ export class SurveyForm {
   });
 
   readonly questions = this.surveyForm.controls.question;
-  surveyService: Supabase = inject(Supabase);
+  surveyService: SupabaseService = inject(SupabaseService);
 
   async onSubmit() {
     if (this.surveyForm.valid) {
@@ -41,7 +41,7 @@ export class SurveyForm {
         })),
       });
 
-      await this.surveyService.saveSurvey(surveyData);
+      await this.surveyService.createSurvey(surveyData);
 
       this.surveyForm.controls.name.reset('');
       this.surveyForm.controls.date.reset(new Date(2026, 31, 10));

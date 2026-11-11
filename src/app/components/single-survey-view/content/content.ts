@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Supabase } from '../../shared/services/supabase';
+import { SupabaseService } from '../../shared/services/supabase';
 import { Survey } from '../../shared/interfaces/survey';
 import { CapitalizePipe } from '../../shared/pipes/capitalize-pipe';
 import { AddQuestionMarkPipe } from '../../shared/pipes/add-question-mark-pipe';
 import { SecondButton } from '../../shared/second-button/second-button';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { SurveyResponseTemplate } from '../../shared/templates/survey-response-model';
 
 @Component({
   selector: 'app-content',
@@ -15,7 +16,7 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 })
 export class Content {
   readonly surveyId = inject(ActivatedRoute).snapshot.paramMap.get('id');
-  readonly dbService = inject(Supabase);
+  readonly dbService = inject(SupabaseService);
   readonly survey = signal<Survey | undefined>(undefined);
   readonly surveyResponseForm = new FormGroup<Record<string, FormControl<boolean>>>({});
 
@@ -24,7 +25,7 @@ export class Content {
   }
 
   async ngOnInit() {
-    const surveys = await this.dbService.getSurveys() ?? [];
+    const surveys = await this.dbService.getAllSurveys() ?? [];
     const survey = surveys.find((item) => String(item.id) == this.surveyId);
     if (survey) {
       survey.questions = JSON.parse(survey.questions as any);
@@ -45,10 +46,12 @@ export class Content {
     if (survey?.id == undefined) {
       throw new Error('Survey was not found.');
     }
-    await this.dbService.submitVote(survey.id, this.surveyResponseForm.getRawValue());
+
+    const surveyResponse = new SurveyResponseTemplate(survey, this.surveyResponseForm.getRawValue());
+    await this.dbService.submitSurveyResponse(survey.id, surveyResponse);
   }
 
   getControlName(questionIndex: number, answerIndex: number): string {
-    return `question${questionIndex}Answer${answerIndex}`;
+    return SurveyResponseTemplate.getControlName(questionIndex, answerIndex);
   }
 }

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Header } from './header/header';
 import { NewSurvey } from './new-survey/new-survey';
 import { Surveys } from './surveys/surveys';
-import { Supabase } from '../shared/services/supabase';
+import { SupabaseService } from '../shared/services/supabase';
 import { Dialog } from '../shared/services/dialog';
 
 @Component({
@@ -13,11 +13,11 @@ import { Dialog } from '../shared/services/dialog';
 })
 export class Home {
   isCreateSurveyDialogOpen = false;
-  dbService = inject(Supabase);
+  dbService = inject(SupabaseService);
   readonly dialog = inject(Dialog);
 
   constructor() {
-    this.dbService.getSurveys();
+    this.dbService.getAllSurveys();
   }
 
   openCreateSurveyDialog() {
