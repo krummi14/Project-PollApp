@@ -6,11 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Survey } from '../../shared/interfaces/survey';
 import { ProgressBar } from '../../shared/progress-bar/progress-bar';
 import { getAnswerVoteCount, getAnswerVotePercentage, getQuestionVoteCount } from '../../shared/utils/response-statistic';
-import { JsonPipe } from '@angular/common';
-
+import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 @Component({
   selector: 'app-results',
-  imports: [AddQuestionMarkPipe, CapitalizePipe, ProgressBar, JsonPipe],
+  imports: [AddQuestionMarkPipe, CapitalizePipe, ProgressBar],
   templateUrl: './results.html',
   styleUrl: './results.scss',
 })
@@ -20,11 +19,7 @@ export class Results {
   readonly survey = signal<Survey | undefined>(undefined);
   readonly isLoading = signal(true);
   readonly loadError = signal<string | undefined>(undefined);
-
-  getAnswerLabel(index: number): string {
-    return String.fromCharCode(65 + index);
-  }
-
+  readonly getAnswerLabel = getAnswerLabelIndex;
   readonly getAnswerVoteCount = getAnswerVoteCount;
   readonly getQuestionVoteCount = getQuestionVoteCount;
   readonly getAnswerVotePercentage = getAnswerVotePercentage;

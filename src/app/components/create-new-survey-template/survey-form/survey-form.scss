@@ -17,6 +17,12 @@ label {
     font-size: 18px;
     margin-top: 8px;
     margin-bottom: 4px;
+
+    & span {
+        font-size: 18px;
+        font-weight: 400;
+        font-family: Mulish;
+    }
 }
 
 fieldset {
@@ -66,6 +72,14 @@ input {
     textarea {
         flex: 1;
     }
+}
+
+.validation_message {
+    font-family: Mulish;
+    font-size: 14px;
+    color: red;
+    margin: 4px 0 0;
+
 }
 
 textarea {

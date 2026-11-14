@@ -1,6 +1,6 @@
 import { Component, output } from '@angular/core';
 import { Header } from './header/header';
-import { SurveyForm } from '../shared/survey-form/survey-form';
+import { SurveyForm } from './survey-form/survey-form';
 
 @Component({
   selector: 'app-create-new-survey-template',

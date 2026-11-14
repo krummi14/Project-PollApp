@@ -7,6 +7,7 @@ import { AddQuestionMarkPipe } from '../../shared/pipes/add-question-mark-pipe';
 import { SecondButton } from '../../shared/second-button/second-button';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { SurveyResponseTemplate } from '../../shared/templates/survey-response-model';
+import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 
 @Component({
   selector: 'app-content',
@@ -19,10 +20,7 @@ export class Content {
   readonly dbService = inject(SupabaseService);
   readonly survey = signal<Survey | undefined>(undefined);
   readonly surveyResponseForm = new FormGroup<Record<string, FormControl<boolean>>>({});
-
-  getAnswerLabel(index: number): string {
-    return String.fromCharCode(65 + index);
-  }
+  readonly getAnswerLabel = getAnswerLabelIndex;
 
   async ngOnInit() {
     const surveys = await this.dbService.getAllSurveys() ?? [];

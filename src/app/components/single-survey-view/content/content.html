@@ -1,16 +1,17 @@
 <main class="content">
 
     @if (survey(); as selectedSurvey) {
-    <p class="content_published">Published</p>
+    <div>
+        <p class="content_published">Published</p>
 
-    <div class="content_header">
-        <p>Ends on {{ selectedSurvey.date }}</p>
-        <p>{{ selectedSurvey.category }}</p>
+        <div class="content_header">
+            <p>Ends on {{ selectedSurvey.date }}</p>
+            <p>{{ selectedSurvey.category }}</p>
+        </div>
+
+        <h3>{{ selectedSurvey.name }}</h3>
+        <p class="content_description">{{ selectedSurvey.description }}</p>
     </div>
-
-    <h3>{{ selectedSurvey.name }}</h3>
-    <p>{{ selectedSurvey.description }}</p>
-
     <form class="content_form" [formGroup]="surveyResponseForm" (ngSubmit)="onSubmit()">
 
         @for (survey of selectedSurvey.questions; track $index; let questionIndex = $index) {
@@ -21,7 +22,9 @@
             <div class="vote_container">
                 <input type="checkbox" [id]="getControlName(questionIndex, answerIndex)"
                     [formControlName]="getControlName(questionIndex, answerIndex)">
-                <p>{{ getAnswerLabel(answerIndex) }}. {{ answer }}</p>
+                <p><span class="vote_container_label">{{ getAnswerLabel(answerIndex) }}. </span><span
+                        class="vote_container_answer">
+                        {{ answer | capitalize }}</span></p>
             </div>
             }
         </div>

@@ -1,7 +1,8 @@
 import { Component, input } from '@angular/core';
-import { DeleteButton } from '../delete-button/delete-button';
-import { ReactiveFormsModule, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { DeleteButton } from '../../shared/delete-button/delete-button';
+import { ReactiveFormsModule, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { AddNewAnswerButton } from '../add-new-answer-button/add-new-answer-button';
+import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 
 export type QuestionForm = FormGroup<{
   question: FormControl<string | null>;
@@ -18,12 +19,10 @@ export type QuestionForm = FormGroup<{
 export class AddNewQuestion {
   readonly questionForm = input.required<QuestionForm>();
   readonly questionNumber = input.required<number>();
-  readonly answerOpportunities = ["A", "B", "C", "D", "E", "F"];
+  readonly getAnswerLabel = getAnswerLabelIndex;
 
   addAnswer() {
-    if (this.answers.controls.length < this.answerOpportunities.length) {
-      this.answers.push(new FormControl(''));
-    }
+    this.answers.push(new FormControl('', Validators.required));
   }
 
   get answers() {
@@ -46,7 +45,7 @@ export class AddNewQuestion {
           }
         } else {
           this.answers.clear();
-          this.answers.push(new FormControl(''));
+          this.answers.push(new FormControl('', Validators.required));
         }
 
         break;

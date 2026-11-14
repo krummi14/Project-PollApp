@@ -5,8 +5,11 @@
             <app-delete-button (click)="delete('question')" />
         </div>
         <p class="input_with_delete">
-            <input id="question-{{ questionNumber() }}" type="text" formControlName="question">
+            <input id="question-{{ questionNumber() }}" type="text" formControlName="question" required>
         </p>
+        @if (questionForm().controls.question.invalid && questionForm().controls.question.touched) {
+        <p class="validation_message" role="alert">This field is required.</p>
+        }
         <div class="answers_multiple_choice">
             <label for="answer">Answers</label>
             <div class="multiple_choice_button">
@@ -16,10 +19,16 @@
         </div>
         <div class="question_and_answer" formArrayName="answers">
             @for (answer of answers.controls; track $index) {
-            <p class="input_with_delete">{{ answerOpportunities[$index] }}. <input
-                    id="answer-{{ questionNumber() }}-{{ $index }}" type="text" [formControlName]="$index">
-                <app-delete-button (click)="delete('answers', $index)" />
-            </p>
+            <div class="answer_field">
+                <p class="input_with_delete">{{ getAnswerLabel($index) }}. <input
+                        id="answer{{ questionNumber() }}Index{{ $index }}" type="text" [formControlName]="$index"
+                        required>
+                    <app-delete-button (click)="delete('answers', $index)" />
+                </p>
+                @if (answer.invalid && answer.touched) {
+                <p class="validation_message" role="alert">This field is required.</p>
+                }
+            </div>
             }
         </div>
         <app-add-new-answer-button (add)=" addAnswer()"></app-add-new-answer-button>

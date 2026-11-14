@@ -1,15 +1,18 @@
-<form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" novalidate>
     <fieldset>
         <header class="fieldset_header">
             <section class="fieldset_header_left_part">
                 <label for="name">Survey Name</label>
                 <div class="input_field_with_delete_button">
-                    <input id="name" formControlName="name" type="text" />
+                    <input id="name" formControlName="name" type="text" required />
                     <app-delete-button (click)="delete('name')" />
                 </div>
+                @if (surveyForm.controls.name.invalid && surveyForm.controls.name.touched) {
+                <p class="validation_message" role="alert">This field is required.</p>
+                }
                 <div class="date_and_category">
                     <div>
-                        <label for="date">Set end date <p class="optional">(optional)</p></label>
+                        <label for="date">Set end date <span>(optional)</span></label>
                         <div class="input_field_with_delete_button">
                             <input id="date" formControlName="date" type="date">
                             <app-delete-button (click)="delete('date')" />
@@ -34,7 +37,7 @@
             </section>
 
             <section class="fieldset_header_right_part">
-                <label for="description">Describing text <p class="optional">(optional)</p></label>
+                <label for="description">Describing text <span>(optional)</span></label>
                 <div class="input_field_with_delete_button">
                     <textarea id="description" formControlName="description"></textarea>
                     <app-delete-button (click)="delete('description')" />
@@ -47,7 +50,7 @@
             <app-add-new-question [questionForm]="questionForm" [questionNumber]="$index + 1"></app-add-new-question>
             }
             <div class="add_another_question">
-                <app-second-button (click)="addQuestion()">
+                <app-second-button type="button" (click)="addQuestion()">
                     Add next question
                     <img src="assets/icons/add_circle_white.svg" alt="Add Icon">
                 </app-second-button>

@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { Button } from '../button/button';
-import { AddNewQuestion, QuestionForm } from '../add-new-question/add-new-question';
-import { DeleteButton } from '../delete-button/delete-button';
-import { SecondButton } from '../second-button/second-button';
-import { SupabaseService } from '../services/supabase';
-import { Surveytemplate } from '../templates/surveytemplate';
+import { Button } from '../../shared/button/button';
+import { AddNewQuestion, QuestionForm } from '../../create-new-survey-template/add-new-question/add-new-question';
+import { DeleteButton } from '../../shared/delete-button/delete-button';
+import { SecondButton } from '../../shared/second-button/second-button';
+import { SupabaseService } from '../../shared/services/supabase';
+import { Surveytemplate } from '../../shared/templates/surveytemplate';
 
 @Component({
   selector: 'app-survey-form',

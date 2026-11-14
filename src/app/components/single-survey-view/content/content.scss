@@ -1,8 +1,11 @@
 .content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     width: 700px;
-    padding: 40px;
     border-top-right-radius: 160px;
     background-color: rgba(142, 112, 153, 0.1);
+    padding: 40px;
 
     &_published {
         font-size: 16px;
@@ -28,6 +31,12 @@
         }
     }
 
+    &_description {
+        font-size: 16px;
+        font-family: Mulish;
+        font-weight: 500;
+    }
+
     &_form {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -41,8 +50,11 @@
     }
 
     &_submit {
+        --background-color: rgba(247, 222, 205, 1);
+        --text-color: rgba(53, 39, 58, 1);
+        --hover-background-color: rgba(255, 199, 161, 1);
         grid-column: 1 / -1;
-        justify-self: start;
+        justify-self: end;
     }
 }
 
@@ -50,8 +62,66 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    gap: 16px;
+
+    & p {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
 
     & input[type="checkbox"] {
-        margin-right: 8px;
+        flex: 0 0 15px;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        border: 1.5px solid rgba(53, 39, 58, 1);
+        border-radius: 3px;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            box-sizing: border-box;
+            width: 10px;
+            height: 6px;
+            border-bottom: 2px solid rgba(53, 39, 58, 1);
+            border-left: 2px solid rgba(53, 39, 58, 1);
+            transform: translate(-50%, -30%) rotate(-45deg) scale(0);
+            transform-origin: center;
+            transition: transform 111ms ease-in-out;
+        }
+
+        &:checked {
+            border-color: rgba(255, 183, 112, 1);
+            background-color: rgba(255, 183, 112, 1);
+        }
+
+        &:checked::before {
+            transform: translate(-50%, -75%) rotate(-45deg) scale(1.2);
+        }
+
+        &:focus-visible {
+            outline: 3px solid rgba(255, 183, 112, 0.45);
+            outline-offset: 2px;
+        }
+    }
+
+    &_label {
+        font-size: 16px;
+        font-family: Mulish;
+        font-weight: 700;
+    }
+
+    &_answer {
+        font-size: 16px;
+        font-family: Mulish;
+        font-weight: 400;
     }
 }

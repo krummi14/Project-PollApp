@@ -1,15 +1,9 @@
 import { SurveyResponse } from "../interfaces/survey-response";
 
 export function mergeSurveyResponses(existingResponse: unknown, newResponse: SurveyResponse): SurveyResponse {
-  if (existingResponse == null) {
-    return newResponse;
-  }
-  if (isLegacyResponse(existingResponse)) {
-    return mergeLegacyResponse(existingResponse, newResponse);
-  }
-  if (!isSurveyResponse(existingResponse)) {
-    throw new Error('The stored response data has an invalid format.');
-  }
+  if (existingResponse == null) return newResponse;
+  if (isLegacyResponse(existingResponse)) return mergeLegacyResponse(existingResponse, newResponse);
+  if (!isSurveyResponse(existingResponse)) throw new Error('The stored response data has an invalid format.');
   return {
     surveyId: newResponse.surveyId,
     questions: newResponse.questions.map((newQuestion) => {
