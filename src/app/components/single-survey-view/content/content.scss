@@ -49,6 +49,14 @@
         gap: 8px;
     }
 
+    &_multiple_choice_hint {
+        font-size: 14px;
+        font-weight: 600;
+        font-family: Mulish;
+        color: rgba(114, 82, 74, 1);
+        margin: 0;
+    }
+
     &_submit {
         --background-color: rgba(247, 222, 205, 1);
         --text-color: rgba(53, 39, 58, 1);

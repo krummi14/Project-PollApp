@@ -1,4 +1,4 @@
-<button class="overview_selector_button" [class.overview_selector_button_active]="activatedButton"
-    (click)="toggleButtonActivation()">
+<button class="overview_selector_button" [class.overview_selector_button_active]="isSelected()"
+    (click)="selectSurveyStatus()">
     <ng-content></ng-content>
 </button>

@@ -4,3 +4,9 @@ export function surveyEndsIn(endDate: Date): number {
   const diffTime = end.getTime() - now.getTime();
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
+
+export function isSurveyAvailable(endDate: Date | string, now = new Date()): boolean {
+  const end = new Date(endDate);
+  end.setHours(23, 59, 59, 999);
+  return end.getTime() >= now.getTime();
+}

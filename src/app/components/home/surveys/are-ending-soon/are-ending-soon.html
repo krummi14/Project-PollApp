@@ -2,7 +2,7 @@
     <p>Ending soon surveys</p>
     <div id="allEndingSurveys" class="list_of_ending_surveys">
         @for (survey of surveysEndingSoon(); track $index) {
-        <app-ending-survey>
+        <app-ending-survey [routerLink]="['/showSingleSurvey', survey.id]">
             <div class="survey_card">
                 <p class="survey_card_header">{{ survey.category }}</p>
                 <h4>{{ survey.name }}</h4>

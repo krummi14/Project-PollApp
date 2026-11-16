@@ -1,0 +1,7 @@
+<select name="Sort by categories" class="sort_by_categories" id="sortSurveysByCategories"
+    (change)="handleCategoryChange($event)">
+    <option value="" selected disabled>Sort by categories</option>
+    @for (category of categories; track category.value) {
+    <option [value]="category.value">{{ category.label }}</option>
+    }
+</select>

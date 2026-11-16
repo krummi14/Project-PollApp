@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
+
+type SurveyStatus = 'active' | 'past';
 
 @Component({
   selector: 'app-selector-button',
@@ -7,9 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './selector-button.scss',
 })
 export class SelectorButton {
-  protected activatedButton = false;
+  readonly surveyStatus = input.required<SurveyStatus>();
+  readonly selectedSurveyStatus = model.required<SurveyStatus>();
+  readonly isSelected = computed(() => this.selectedSurveyStatus() == this.surveyStatus());
 
-  protected toggleButtonActivation(): void {
-    this.activatedButton = !this.activatedButton;
+  protected selectSurveyStatus(): void {
+    this.selectedSurveyStatus.set(this.surveyStatus());
   }
 }

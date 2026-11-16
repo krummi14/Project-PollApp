@@ -4,10 +4,11 @@ import { SupabaseService } from '../../../shared/services/supabase';
 import { Survey } from '../../../shared/interfaces/survey';
 import { surveyEndsIn } from '../../../shared/utils/ends-in-days';
 import { loadSurveysEndingSoon } from '../../../shared/utils/surveys-ending-soon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-are-ending-soon',
-  imports: [EndingSurvey],
+  imports: [EndingSurvey, RouterLink],
   templateUrl: './are-ending-soon.html',
   styleUrl: './are-ending-soon.scss',
 })

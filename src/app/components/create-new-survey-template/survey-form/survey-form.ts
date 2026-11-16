@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
 import { Button } from '../../shared/button/button';
 import { AddNewQuestion, QuestionForm } from '../../create-new-survey-template/add-new-question/add-new-question';
 import { DeleteButton } from '../../shared/delete-button/delete-button';
 import { SecondButton } from '../../shared/second-button/second-button';
 import { SupabaseService } from '../../shared/services/supabase';
 import { Surveytemplate } from '../../shared/templates/surveytemplate';
+import { SURVEY_CATEGORIES } from '../../shared/utils/survey-categories';
 
 @Component({
   selector: 'app-survey-form',
@@ -15,10 +16,12 @@ import { Surveytemplate } from '../../shared/templates/surveytemplate';
 })
 
 export class SurveyForm {
+  readonly categories = SURVEY_CATEGORIES;
+
   surveyForm = new FormGroup({
     name: new FormControl(''),
     date: new FormControl(new Date(2026, 10, 25)),
-    category: new FormControl(''),
+    category: new FormControl('', Validators.required),
     description: new FormControl(''),
     question: new FormArray([this.createQuestionForm()]),
   });

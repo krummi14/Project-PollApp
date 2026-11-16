@@ -17,11 +17,14 @@
         @for (survey of selectedSurvey.questions; track $index; let questionIndex = $index) {
         <div class="content_question">
             <h4>{{ survey.question | addQuestionMark | capitalize }}</h4>
-
+            @if (survey.multipleChoice) {
+            <p class="content_multiple_choice_hint">More than one answers are possible.</p>
+            }
             @for (answer of survey.answers; track $index; let answerIndex = $index) {
             <div class="vote_container">
                 <input type="checkbox" [id]="getControlName(questionIndex, answerIndex)"
-                    [formControlName]="getControlName(questionIndex, answerIndex)">
+                    [formControlName]="getControlName(questionIndex, answerIndex)"
+                    (change)="deselectOtherAnswers(questionIndex, answerIndex, survey.multipleChoice, survey.answers.length, $any($event.target).checked)">>
                 <p><span class="vote_container_label">{{ getAnswerLabel(answerIndex) }}. </span><span
                         class="vote_container_answer">
                         {{ answer | capitalize }}</span></p>
@@ -29,9 +32,9 @@
             }
         </div>
         }
-
+        @if (isSurveyAvailable(selectedSurvey.date)) {
         <app-second-button class="content_submit" type="submit">Complete survey</app-second-button>
-
+        }
     </form>
     }
 

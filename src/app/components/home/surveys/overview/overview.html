@@ -1,13 +1,15 @@
 <section class="general_overview">
     <div class="general_overview_header">
         <div class="general_overview_header_buttons">
-            <app-selector-button>Active survey</app-selector-button>
-            <app-selector-button>Past survey</app-selector-button>
+            <app-selector-button surveyStatus="active" [(selectedSurveyStatus)]="selectedSurveyStatus">Active
+                survey</app-selector-button>
+            <app-selector-button surveyStatus="past" [(selectedSurveyStatus)]="selectedSurveyStatus">Past
+                survey</app-selector-button>
         </div>
-        <app-dropdown-menu></app-dropdown-menu>
+        <app-dropdown-menu (categorySelected)="selectCategory($event)"></app-dropdown-menu>
     </div>
     <div class="survey_list" id="surveyList">
-        @for (survey of allSurveys(); track $index) {
+        @for (survey of displayedSurveys(); track survey.id) {
         <app-card class="survey_card" [routerLink]="['/showSingleSurvey', survey.id]">
             <div>
                 <p class="survey_card_category"> {{ survey.category }} </p>
