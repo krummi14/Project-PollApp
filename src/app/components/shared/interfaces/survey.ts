@@ -3,7 +3,7 @@ import { SurveyResponse } from "./survey-response";
 export interface Survey {
   id?: number;
   name: string;
-  date: Date;
+  date: string;
   category: string;
   description: string;
   questions: Question[];

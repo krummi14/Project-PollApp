@@ -1,8 +1,8 @@
-import { Component, inject, signal, computed } from '@angular/core';
+
+import { Component, inject, computed, OnInit, signal } from '@angular/core';
 import { DropdownMenu } from '../dropdown-menu/dropdown-menu';
 import { Card } from './card/card';
 import { SupabaseService } from '../../../shared/services/supabase';
-import { Survey } from '../../../shared/interfaces/survey';
 import { surveyEndsIn, isSurveyAvailable } from '../../../shared/utils/ends-in-days';
 import { RouterLink } from '@angular/router';
 import { SelectorButton } from './selector-button/selector-button';
@@ -13,30 +13,27 @@ import { SelectorButton } from './selector-button/selector-button';
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })
-export class Overview {
+export class Overview implements OnInit {
+
   readonly surveyService = inject(SupabaseService);
-  readonly allSurveys = signal<Survey[]>([]);
+  readonly allSurveys = this.surveyService.surveys;
   readonly surveyEndsIn = surveyEndsIn;
   readonly selectedCategory = signal('allSurveys');
   readonly selectedSurveyStatus = signal<'active' | 'past'>('active');
   readonly displayedSurveys = computed(() => {
+
     const selectedCategory = this.selectedCategory();
     const selectedSurveyStatus = this.selectedSurveyStatus();
     const surveys = this.allSurveys();
-    const surveysByStatus = surveys.filter((survey) =>
-      selectedSurveyStatus == 'active' ? isSurveyAvailable(survey.date) : !isSurveyAvailable(survey.date),
+    const surveysByStatus = surveys.filter((survey) => selectedSurveyStatus == 'active' ? isSurveyAvailable(survey.date) : !isSurveyAvailable(survey.date));
+
+    return selectedCategory == 'allSurveys' ? surveysByStatus : surveysByStatus.filter(
+      (survey) => survey.category == selectedCategory,
     );
-    return selectedCategory == 'allSurveys' ? surveysByStatus : surveysByStatus.filter((survey) => survey.category == selectedCategory);
   });
 
   async ngOnInit() {
-    await this.loadAllSurveys();
-  }
-
-  async loadAllSurveys() {
-    const surveys = (await this.surveyService.getAllSurveys()) ?? []
-    this.allSurveys.set(surveys);
-    return surveys;
+    await this.surveyService.getAllSurveys();
   }
 
   selectCategory(category: string) {

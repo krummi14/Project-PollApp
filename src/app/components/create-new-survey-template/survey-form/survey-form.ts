@@ -34,7 +34,7 @@ export class SurveyForm {
       const value = this.surveyForm.getRawValue();
       const surveyData = new Surveytemplate({
         name: value.name ?? '',
-        date: value.date ?? new Date(2026, 1, 11),
+        date: value.date ? new Date(value.date).toISOString().split('T')[0] : '2026-02-11',
         category: value.category ?? '',
         description: value.description ?? '',
         questions: value.question.map((question) => ({
