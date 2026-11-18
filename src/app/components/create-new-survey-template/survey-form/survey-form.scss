@@ -90,10 +90,11 @@ textarea {
 }
 
 .publish_button {
-    margin-top: 40px;
-    width: 100%;
+    position: relative;
     display: flex;
     justify-content: end;
+    width: 100%;
+    margin-top: 40px;
 }
 
 .category_dropdown {
@@ -179,5 +180,33 @@ textarea {
     & img {
         width: 24px;
         height: 24px;
+    }
+}
+
+.published_confirmation {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px 20px 5px 5px;
+    background-color: rgba(254, 233, 212, 1);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    color: rgba(53, 39, 58, 1);
+    font-family: Mulish, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    animation: slide-in-from-right 250ms ease-out;
+    padding: 16px 24px;
+}
+
+@keyframes slide-in-from-right {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
     }
 }

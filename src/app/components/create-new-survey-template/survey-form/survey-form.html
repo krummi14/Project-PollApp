@@ -60,5 +60,10 @@
 
     <footer class="publish_button">
         <app-button type="submit" icon="check">Publish</app-button>
+        @if (publishedConfirmationIsVisible()) {
+        <aside class="published_confirmation" role="status" aria-live="polite">
+            Your survey is now published
+        </aside>
+        }
     </footer>
 </form>

@@ -32,10 +32,12 @@
             }
         </div>
         }
-        @if (isSurveyAvailable(selectedSurvey.date)) {
-        <app-second-button class="content_submit" type="submit">Complete survey</app-second-button>
+        @if (isSurveyAvailable(selectedSurvey.date) || isSurveyCompleted()) {
+        <app-second-button class="vote_content__submit" type="submit">
+            {{ isSurveyCompleted() ? 'Back to home' : 'Complete survey' }}
+        </app-second-button>
         }
     </form>
-    }
 
+    }
 </main>

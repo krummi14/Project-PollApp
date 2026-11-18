@@ -15,7 +15,11 @@
                 <p class="survey_card_category"> {{ survey.category }} </p>
                 <h5 class="survey_card_title"> {{ survey.name }} </h5>
             </div>
+            @if (isSurveyAvailabel(survey.date)) {
             <p class="survey_card_ends_in">Ends in {{ surveyEndsIn(survey.date) }} days</p>
+            } @else {
+            <p class="survey_card_ends_in">Ended on {{ survey.date | date:'mediumDate' }}</p>
+            }
         </app-card>
         }
     </div>

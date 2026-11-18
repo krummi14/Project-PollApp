@@ -1,6 +1,6 @@
 
-import { Component, computed, effect, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '../../shared/services/supabase';
 import { CapitalizePipe } from '../../shared/pipes/capitalize-pipe';
 import { AddQuestionMarkPipe } from '../../shared/pipes/add-question-mark-pipe';
@@ -12,12 +12,7 @@ import { isSurveyAvailable } from '../../shared/utils/ends-in-days';
 
 @Component({
   selector: 'app-content',
-  imports: [
-    CapitalizePipe,
-    AddQuestionMarkPipe,
-    SecondButton,
-    ReactiveFormsModule
-  ],
+  imports: [CapitalizePipe, AddQuestionMarkPipe, SecondButton, ReactiveFormsModule],
   templateUrl: './content.html',
   styleUrl: './content.scss',
 })
@@ -25,17 +20,13 @@ export class Content {
 
   private readonly route = inject(ActivatedRoute);
   readonly dbService = inject(SupabaseService);
-  readonly surveyId = Number(
-    this.route.snapshot.paramMap.get('id')
-  );
-  readonly survey = computed(() =>
-    this.dbService.surveys().find(
-      item => item.id == this.surveyId
-    )
-  );
+  readonly router = inject(Router);
+  readonly surveyId = Number(this.route.snapshot.paramMap.get('id'));
+  readonly survey = computed(() => this.dbService.surveys().find(item => item.id == this.surveyId));
   readonly surveyResponseForm = new FormGroup<Record<string, FormControl<boolean>>>({});
   readonly getAnswerLabel = getAnswerLabelIndex;
   readonly isSurveyAvailable = isSurveyAvailable;
+  readonly isSurveyCompleted = signal(false);
 
   private readonly formEffect = effect(() => {
     const survey = this.survey();
@@ -59,6 +50,10 @@ export class Content {
   });
 
   async onSubmit() {
+    if (this.isSurveyCompleted()) {
+      await this.router.navigateByUrl('/');
+      return;
+    }
     const survey = this.survey();
     if (survey?.id == undefined) {
       throw new Error('Survey was not found.');
@@ -72,20 +67,15 @@ export class Content {
       survey,
       this.surveyResponseForm.getRawValue()
     );
-
     await this.dbService.submitSurveyResponse(
       survey.id,
       surveyResponse
     );
+    this.surveyResponseForm.disable();
+    this.isSurveyCompleted.set(true);
   }
 
-  deselectOtherAnswers(
-    questionIndex: number,
-    selectedAnswerIndex: number,
-    multipleChoice: boolean,
-    answerCount: number,
-    isSelected: boolean
-  ) {
+  deselectOtherAnswers(questionIndex: number, selectedAnswerIndex: number, multipleChoice: boolean, answerCount: number, isSelected: boolean) {
     if (multipleChoice || !isSelected) {
       return;
     }
@@ -98,13 +88,7 @@ export class Content {
     }
   }
 
-  getControlName(
-    questionIndex: number,
-    answerIndex: number
-  ): string {
-    return SurveyResponseTemplate.getControlName(
-      questionIndex,
-      answerIndex
-    );
+  getControlName(questionIndex: number, answerIndex: number): string {
+    return SurveyResponseTemplate.getControlName(questionIndex, answerIndex);
   }
 }
