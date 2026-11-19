@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/** Card displaying a survey in the overview. */
 @Component({
   selector: 'app-card',
   imports: [],

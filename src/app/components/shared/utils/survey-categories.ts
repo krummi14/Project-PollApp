@@ -1,3 +1,9 @@
+/**
+ * Available survey categories with internal value and display label.
+ *
+ * @remarks
+ * `allSurveys` serves as the filter option for "all categories".
+ */
 export const SURVEY_CATEGORIES = [
   { value: 'allSurveys', label: 'All Surveys' },
   { value: 'teamActivities', label: 'Team Activities' },

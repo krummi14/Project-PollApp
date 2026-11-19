@@ -1,5 +1,18 @@
 import { SurveyResponse } from "../interfaces/survey-response";
 
+/**
+ * Merges stored responses with new responses.
+ *
+ * @remarks
+ * Supports both the current format ({@link SurveyResponse}) and the
+ * legacy format (object of control names and boolean values).
+ * The votes (`selected`) are concatenated per answer.
+ *
+ * @param existingResponse - The previously stored responses (any format or `null`)
+ * @param newResponse - The new responses
+ * @returns The merged responses
+ * @throws Error if the stored data has an invalid format
+ */
 export function mergeSurveyResponses(existingResponse: unknown, newResponse: SurveyResponse): SurveyResponse {
   if (existingResponse == null) return newResponse;
   if (isLegacyResponse(existingResponse)) return mergeLegacyResponse(existingResponse, newResponse);
@@ -26,6 +39,13 @@ export function mergeSurveyResponses(existingResponse: unknown, newResponse: Sur
   };
 }
 
+/**
+ * Merges responses in the legacy format with new responses.
+ *
+ * @param legacyResponse - Responses in the legacy format (control name → selected)
+ * @param newResponse - The new responses
+ * @returns The merged responses in the current format
+ */
 function mergeLegacyResponse(
   legacyResponse: Record<string, boolean>,
   newResponse: SurveyResponse
@@ -48,6 +68,12 @@ function mergeLegacyResponse(
   };
 }
 
+/**
+ * Checks whether a value is in the legacy response format.
+ *
+ * @param value - The value to check
+ * @returns `true` if the value is an object containing only boolean values
+ */
 function isLegacyResponse(value: unknown): value is Record<string, boolean> {
   return typeof value == 'object'
     && value != null
@@ -55,6 +81,12 @@ function isLegacyResponse(value: unknown): value is Record<string, boolean> {
     && Object.values(value).every((selection) => typeof selection === 'boolean');
 }
 
+/**
+ * Checks whether a value is a valid {@link SurveyResponse} object.
+ *
+ * @param value - The value to check
+ * @returns `true` if the value matches the format
+ */
 function isSurveyResponse(value: unknown): value is SurveyResponse {
   if (
     typeof value != 'object'
@@ -69,6 +101,12 @@ function isSurveyResponse(value: unknown): value is SurveyResponse {
   return value.questions.every((question: unknown) => isSurveyResponseQuestion(question));
 }
 
+/**
+ * Checks whether a value is a valid {@link SurveyResponseQuestion}.
+ *
+ * @param value - The value to check
+ * @returns `true` if the value matches the format
+ */
 function isSurveyResponseQuestion(value: unknown): boolean {
   if (
     typeof value != 'object'
@@ -85,6 +123,12 @@ function isSurveyResponseQuestion(value: unknown): boolean {
   return value.answers.every((answer: unknown) => isSurveyResponseAnswer(answer));
 }
 
+/**
+ * Checks whether a value is a valid {@link SurveyResponseAnswer}.
+ *
+ * @param value - The value to check
+ * @returns `true` if the value matches the format
+ */
 function isSurveyResponseAnswer(value: unknown): boolean {
   if (
     typeof value != 'object'

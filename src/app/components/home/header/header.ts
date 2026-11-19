@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/** Header of the home page. */
 @Component({
   selector: 'app-header',
   imports: [],

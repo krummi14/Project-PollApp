@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/** Displays a single survey that is ending soon. */
 @Component({
   selector: 'app-ending-survey',
   imports: [],

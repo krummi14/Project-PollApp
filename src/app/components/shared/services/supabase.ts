@@ -7,26 +7,45 @@ import { SurveyResponse } from '../interfaces/survey-response';
 import { mergeSurveyResponses } from '../utils/survey-response';
 import { Survey } from '../interfaces/survey';
 
+/** Row of the `survey_responses` table. */
 interface SurveyResponseRow {
+  /** ID of the associated survey. */
   survey_id: number;
+  /** Stored responses, or `null` if there are none yet. */
   responses: SurveyResponse | null;
 }
 
+/**
+ * Service for accessing the Supabase database.
+ *
+ * @remarks
+ * Holds surveys and responses as signals and subscribes to realtime changes
+ * of the `surveys` and `survey_responses` tables, so the local state
+ * stays in sync automatically.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class SupabaseService implements OnDestroy {
 
+  /** Supabase client. */
   private readonly supabase = createClient(
     'https://ginbpssplhilfajizmmq.supabase.co',
     'sb_publishable_FPS7bmj0U0UBx14i6DkH0A_PFQoXvUe',
   );
 
+  /** All known surveys. */
   readonly surveys = signal<Survey[]>([]);
+  /** Responses per survey ID. */
   readonly surveyResponses = signal<Record<number, SurveyResponse | null>>({});
 
+  /** Realtime channel for changes to surveys and responses. */
   private readonly channel: RealtimeChannel;
 
+  /**
+   * Creates the realtime channel and subscribes to changes of the
+   * `surveys` and `survey_responses` tables.
+   */
   constructor() {
     this.channel = this.supabase
       .channel('survey-changes')
@@ -85,10 +104,17 @@ export class SupabaseService implements OnDestroy {
       .subscribe();
   }
 
+  /** Removes the realtime channel when the service is destroyed. */
   ngOnDestroy(): void {
     this.supabase.removeChannel(this.channel);
   }
 
+  /**
+   * Loads all surveys and their responses from the database and updates the signals.
+   *
+   * @returns All loaded surveys
+   * @throws Supabase error if one of the queries fails
+   */
   async getAllSurveys(): Promise<Survey[]> {
     const [surveyResult, responseResult] = await Promise.all([
       this.supabase
@@ -117,6 +143,12 @@ export class SupabaseService implements OnDestroy {
     return surveys;
   }
 
+  /**
+   * Saves a new survey and creates an empty response row for it.
+   *
+   * @param survey - The survey to save (an existing `id` is ignored)
+   * @throws Supabase error if saving fails
+   */
   async createSurvey(survey: Surveytemplate): Promise<void> {
     const { id, ...surveyData } = survey;
     const { data, error } = await this.supabase
@@ -142,6 +174,12 @@ export class SupabaseService implements OnDestroy {
     this.upsertSurveyResponse(newSurvey.id!, null);
   }
 
+  /**
+   * Updates an existing survey.
+   *
+   * @param survey - The survey with updated data
+   * @throws Error if the survey has no ID, or a Supabase error
+   */
   async updateSurvey(survey: Survey): Promise<void> {
     if (survey.id == undefined) {
       throw new Error('Die Umfrage besitzt keine ID.');
@@ -161,6 +199,12 @@ export class SupabaseService implements OnDestroy {
     this.upsertSurvey(data as Survey);
   }
 
+  /**
+   * Deletes a survey and removes it together with its responses from the local state.
+   *
+   * @param id - ID of the survey to delete
+   * @throws Supabase error if deleting fails
+   */
   async deleteSurvey(id: number): Promise<void> {
     const { error } = await this.supabase
       .from('surveys')
@@ -180,6 +224,17 @@ export class SupabaseService implements OnDestroy {
     });
   }
 
+  /**
+   * Submits new responses to a survey.
+   *
+   * @remarks
+   * The already stored responses are loaded, merged with the new responses
+   * and then saved.
+   *
+   * @param id - ID of the survey
+   * @param newResponse - The user's new responses
+   * @throws Supabase error if loading or saving fails
+   */
   async submitSurveyResponse(
     id: number,
     newResponse: SurveyResponse,
@@ -215,6 +270,13 @@ export class SupabaseService implements OnDestroy {
     );
   }
 
+  /**
+   * Loads the responses to a survey and updates the local state.
+   *
+   * @param surveyId - ID of the survey
+   * @returns The stored responses, or `null` if there are none
+   * @throws Supabase error if the query fails
+   */
   async getSurveyResponse(
     surveyId: number,
   ): Promise<SurveyResponse | null> {
@@ -231,6 +293,12 @@ export class SupabaseService implements OnDestroy {
     return response;
   }
 
+  /**
+   * Inserts a survey into the local state or replaces an existing one with the same ID.
+   * Surveys without an ID are ignored.
+   *
+   * @param updatedSurvey - The survey to insert or update
+   */
   private upsertSurvey(updatedSurvey: Survey): void {
     if (updatedSurvey.id == undefined) {
       return;
@@ -248,6 +316,12 @@ export class SupabaseService implements OnDestroy {
     });
   }
 
+  /**
+   * Sets the responses of a survey in the local state.
+   *
+   * @param surveyId - ID of the survey
+   * @param response - The responses, or `null`
+   */
   private upsertSurveyResponse(
     surveyId: number,
     response: SurveyResponse | null,

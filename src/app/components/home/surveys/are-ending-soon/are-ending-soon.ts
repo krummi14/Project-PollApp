@@ -6,6 +6,7 @@ import { surveyEndsIn } from '../../../shared/utils/ends-in-days';
 import { loadSurveysEndingSoon } from '../../../shared/utils/surveys-ending-soon';
 import { RouterLink } from '@angular/router';
 
+/** Shows the surveys that end next. */
 @Component({
   selector: 'app-are-ending-soon',
   imports: [EndingSurvey, RouterLink],
@@ -13,14 +14,23 @@ import { RouterLink } from '@angular/router';
   styleUrl: './are-ending-soon.scss',
 })
 export class AreEndingSoon {
+  /** Service for accessing the Supabase database. */
   readonly surveyService = inject(SupabaseService);
+  /** List of surveys ending soon. */
   readonly surveysEndingSoon = signal<Survey[]>([]);
+  /** Calculates the remaining days until a survey ends. */
   readonly surveyEndsIn = surveyEndsIn;
 
+  /** Loads the surveys ending soon on initialization. */
   async ngOnInit() {
     this.loadSurveysEndingSoon();
   }
 
+  /**
+   * Loads all surveys and determines the ones ending soon.
+   *
+   * @returns A promise that resolves once loading has completed
+   */
   async loadSurveysEndingSoon() {
     const surveys = (await this.surveyService.getAllSurveys()) ?? [];
     this.surveysEndingSoon.set(loadSurveysEndingSoon(surveys));

@@ -12,6 +12,7 @@ import {
 } from '../../shared/utils/response-statistic';
 import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 
+/** Displays the results (votes and percentages) of a survey. */
 @Component({
   selector: 'app-results',
   imports: [AddQuestionMarkPipe, CapitalizePipe, ProgressBar],
@@ -20,10 +21,15 @@ import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer
 })
 export class Results {
 
+  /** Service for accessing the Supabase database. */
   readonly dbService = inject(SupabaseService);
+  /** ID of the displayed survey from the `id` route parameter. */
   readonly surveyId = Number(inject(ActivatedRoute).snapshot.paramMap.get('id'));
+  /** Whether the data is still loading. */
   readonly isLoading = signal(true);
+  /** Error message if loading failed. */
   readonly loadError = signal<string | undefined>(undefined);
+  /** The displayed survey including its responses, or `undefined`. */
   readonly survey = computed(() => {
     const survey = this.dbService.surveys().find(
       item => item.id == this.surveyId
@@ -37,11 +43,16 @@ export class Results {
     };
   });
 
+  /** Returns the letter (A, B, C, …) for an answer index. */
   readonly getAnswerLabel = getAnswerLabelIndex;
+  /** Determines the number of votes for an answer. */
   readonly getAnswerVoteCount = getAnswerVoteCount;
+  /** Determines the total number of votes for a question. */
   readonly getQuestionVoteCount = getQuestionVoteCount;
+  /** Calculates the percentage of votes for an answer. */
   readonly getAnswerVotePercentage = getAnswerVotePercentage;
 
+  /** Loads all surveys on initialization and sets the loading and error state. */
   async ngOnInit() {
     try {
       await this.dbService.getAllSurveys();

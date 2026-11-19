@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/** Reusable button for deleting or resetting inputs. */
 @Component({
   selector: 'app-delete-button',
   imports: [],

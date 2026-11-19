@@ -10,6 +10,7 @@ import { SurveyResponseTemplate } from '../../shared/templates/survey-response-m
 import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 import { isSurveyAvailable } from '../../shared/utils/ends-in-days';
 
+/** Displays the questions of a survey and allows answering them. */
 @Component({
   selector: 'app-content',
   imports: [CapitalizePipe, AddQuestionMarkPipe, SecondButton, ReactiveFormsModule],
@@ -18,16 +19,26 @@ import { isSurveyAvailable } from '../../shared/utils/ends-in-days';
 })
 export class Content {
 
+  /** Current route used to read the survey ID. */
   private readonly route = inject(ActivatedRoute);
+  /** Service for accessing the Supabase database. */
   readonly dbService = inject(SupabaseService);
+  /** Router used for navigation after submitting. */
   readonly router = inject(Router);
+  /** ID of the displayed survey from the `id` route parameter. */
   readonly surveyId = Number(this.route.snapshot.paramMap.get('id'));
+  /** The displayed survey, or `undefined` if it was not found. */
   readonly survey = computed(() => this.dbService.surveys().find(item => item.id == this.surveyId));
+  /** Form with one boolean control per answer option. */
   readonly surveyResponseForm = new FormGroup<Record<string, FormControl<boolean>>>({});
+  /** Returns the letter (A, B, C, …) for an answer index. */
   readonly getAnswerLabel = getAnswerLabelIndex;
+  /** Checks whether a survey is still available. */
   readonly isSurveyAvailable = isSurveyAvailable;
+  /** Whether the survey has already been submitted. */
   readonly isSurveyCompleted = signal(false);
 
+  /** Creates a form control for every answer option of the loaded survey. */
   private readonly formEffect = effect(() => {
     const survey = this.survey();
     if (!survey) {
@@ -49,6 +60,15 @@ export class Content {
     }
   });
 
+  /**
+   * Submits the responses of the survey.
+   *
+   * @remarks
+   * If the survey has already been submitted, navigates to the home page instead.
+   * After successful submission, the form is disabled.
+   *
+   * @throws Error if the survey was not found or has already ended
+   */
   async onSubmit() {
     if (this.isSurveyCompleted()) {
       await this.router.navigateByUrl('/');
@@ -75,6 +95,15 @@ export class Content {
     this.isSurveyCompleted.set(true);
   }
 
+  /**
+   * Deselects all other answers for single-choice questions.
+   *
+   * @param questionIndex - Index of the question
+   * @param selectedAnswerIndex - Index of the answer just selected
+   * @param multipleChoice - Whether multiple answers are allowed
+   * @param answerCount - Number of answer options
+   * @param isSelected - Whether the answer was selected (rather than deselected)
+   */
   deselectOtherAnswers(questionIndex: number, selectedAnswerIndex: number, multipleChoice: boolean, answerCount: number, isSelected: boolean) {
     if (multipleChoice || !isSelected) {
       return;
@@ -88,6 +117,13 @@ export class Content {
     }
   }
 
+  /**
+   * Builds the name of the form control for an answer.
+   *
+   * @param questionIndex - Index of the question
+   * @param answerIndex - Index of the answer
+   * @returns The control name
+   */
   getControlName(questionIndex: number, answerIndex: number): string {
     return SurveyResponseTemplate.getControlName(questionIndex, answerIndex);
   }

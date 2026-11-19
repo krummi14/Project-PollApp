@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 
+/** Reusable secondary button. */
 @Component({
   selector: 'app-second-button',
   imports: [],
@@ -7,5 +8,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './second-button.scss',
 })
 export class SecondButton {
+  /** HTML type of the button. */
   readonly type = input<'button' | 'submit'>('button');
 }
