@@ -1,0 +1,85 @@
+.img_animation {
+    position: relative;
+    width: 424px;
+    height: 416px;
+}
+
+.smartphone {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 0;
+    left: 0;
+    z-index: 4;
+}
+
+.speech_bubble {
+    position: absolute;
+    width: 88px;
+    height: 56px;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: transform 250ms ease-out;
+}
+
+.smartphone:hover~.speech_bubble {
+    transform: translate(-50%, -50%) translate(-20px, -10px) scale(1.5);
+}
+
+.questionmark_bubble {
+    position: absolute;
+    width: 88px;
+    height: 88px;
+    top: 10%;
+    left: 77%;
+    transform: translate(-50%, -50%);
+    rotate: 10deg;
+    z-index: 10;
+    transition: transform 250ms ease-out;
+}
+
+.smartphone:hover~.questionmark_bubble {
+    transform: translate(-50%, -50%) translate(-10px, 0px) rotate(-20deg);
+}
+
+.check_bubble {
+    position: absolute;
+    width: 88x;
+    height: 88px;
+    top: 80%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: transform 250ms ease-out;
+}
+
+.smartphone:hover~.check_bubble {
+    transform: translate(-50%, -50%) translate(50px, 5px) rotate(5deg);
+}
+
+.star_bubble {
+    position: absolute;
+    width: 88px;
+    height: 88px;
+    top: 80%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: transform 250ms ease-out;
+}
+
+.smartphone:hover~.star_bubble {
+    transform: translate(-50%, -50%) translate(-15px, 5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .speech_bubble,
+    .question_mark_bubble,
+    .check_bubble,
+    .star_bubble {
+        transition: none;
+    }
+}

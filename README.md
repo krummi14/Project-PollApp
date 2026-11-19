@@ -6,19 +6,21 @@
 
 A responsive survey application built with **Angular 21** and **Supabase**.
 
-Create surveys, collect feedback, and explore voting results — all in one place.
+Create surveys, vote on them, and watch the results update live — all in one place.
 
 <p>
   <img src="https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white" alt="Angular 21" />
   <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.9" />
   <img src="https://img.shields.io/badge/SCSS-Styles-CC6699?logo=sass&logoColor=white" alt="SCSS" />
   <img src="https://img.shields.io/badge/Supabase-Realtime-3ECF8E?logo=supabase&logoColor=white" alt="Supabase Realtime" />
+  <img src="https://img.shields.io/badge/Vitest-Tests-6E9F18?logo=vitest&logoColor=white" alt="Vitest" />
 </p>
 
 <p>
   <a href="#-features">Features</a> ·
   <a href="#-getting-started">Getting Started</a> ·
   <a href="#-architecture">Architecture</a> ·
+  <a href="#-data-model">Data Model</a> ·
   <a href="#-development">Development</a>
 </p>
 
@@ -31,70 +33,66 @@ Create surveys, collect feedback, and explore voting results — all in one plac
 <table>
   <tr>
     <td width="50%">
-      <h3>📝 Survey Creation</h3>
-      Create surveys with titles, categories, descriptions, optional end dates, questions, and answer options.
+      <h3>📝 Create surveys</h3>
+      Create surveys with a name, category, end date, description and any number of questions with answer options — in a global dialog that can be opened from every page.
     </td>
     <td width="50%">
-      <h3>🗳️ Voting</h3>
-      Participate in active surveys, select answers, and review submitted responses.
+      <h3>🗳️ Vote</h3>
+      Open an active survey, choose your answers (single or multiple choice) and submit them. Afterwards your selection stays visible and is locked.
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <h3>⚡ Live Results</h3>
-      Keep connected clients synchronized with Supabase Realtime.
+      <h3>📊 Live results</h3>
+      Each question shows vote counts and percentages as progress bars. Supabase Realtime keeps all connected clients in sync.
     </td>
     <td width="50%">
-      <h3>📊 Survey Overview</h3>
-      Browse active and past surveys, filter by category, and discover surveys ending soon.
+      <h3>🔎 Survey overview</h3>
+      Switch between active and past surveys, filter by category and jump directly to the surveys that are ending soon.
     </td>
   </tr>
 </table>
 
-Additional features:
+Additional details:
 
-- 📌 Publish surveys with in-app confirmation.
-- ☑️ Support single-choice and multiple-choice questions.
-- 🔒 Keep submitted answers visible and prevent changes after submission.
-- ⏳ Highlight surveys that are ending soon.
-- 📅 Display expiration dates for completed surveys.
-- 📱 Provide a responsive user experience.
-- ♿ Respect reduced-motion preferences for the hero animation.
+- ☑️ Single-choice questions automatically deselect the other answers; multiple-choice questions show a hint.
+- 🔤 Answers are labeled `A`, `B`, `C`, … and questions automatically get a capitalized first letter and a trailing `?`.
+- ⏳ The **Ending soon** section shows the 3 active surveys with the nearest end date.
+- 📅 Active surveys show `Ends in <n> days`, past surveys show `Ended on <date>`.
+- 🔒 Expired surveys can no longer be completed (a survey is active until 23:59:59 on its end date).
+- ✅ Publishing a survey shows a confirmation for 4 seconds and resets the form.
+- ♿ The hero animation respects `prefers-reduced-motion`.
+- 📱 Responsive layout.
 
 ## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |---|---|
-| [Angular 21](https://angular.dev/) | Application framework |
+| [Angular 21](https://angular.dev/) | Framework (standalone components, signals) |
 | [TypeScript 5.9](https://www.typescriptlang.org/) | Application logic |
 | SCSS | Styling |
-| Angular Reactive Forms | Form handling and validation |
+| Angular Reactive Forms | Survey form and voting form |
 | Angular Router | Client-side navigation |
-| [Supabase](https://supabase.com/) | Database and real-time synchronization |
+| [Supabase](https://supabase.com/) (`@supabase/supabase-js`) | Database and realtime synchronization |
+| [Vitest](https://vitest.dev/) + jsdom | Unit tests |
+| Prettier | Code formatting |
 | npm 11 | Package management |
+
+Fonts (self-hosted in `public/assets/fonts/`): **Mulish**, **Nerko One**, **Nokora**.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
-- [Node.js](https://nodejs.org/) — use an active LTS release
+- [Node.js](https://nodejs.org/) (active LTS release)
 - npm 11 or later
 - A [Supabase](https://supabase.com/) project
-
-Verify your installation:
-
-```bash
-node --version
-npm --version
-```
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/krummi14/Project-PollApp
-cd poll-app
+git clone https://github.com/krummi14/Project-PollApp.git
+cd Project-PollApp
 ```
 
 ### 2. Install dependencies
@@ -105,22 +103,14 @@ npm install
 
 ### 3. Configure Supabase
 
-The Supabase client is initialized in:
+The Supabase client is created in
+[`src/app/components/shared/services/supabase.ts`](src/app/components/shared/services/supabase.ts)
+(`SupabaseService`). Replace the project URL and the publishable key with the values of your own project.
 
-`src/app/components/shared/services/survices.ts`
-
-The application requires:
-
-- A Supabase project URL
-- A publishable/anon project key
-- A `Survey_Form` table with compatible columns
-- Appropriate Row Level Security (RLS) policies
-- Realtime replication enabled for `Survey_Form`
+The application needs two tables — `surveys` and `survey_responses` — with Realtime enabled. See [Supabase setup](#-supabase-setup--security) below.
 
 > [!IMPORTANT]
-> Never expose a Supabase `service_role` key in browser code. Use a publishable/anon key and configure RLS policies to control database access.
-
-For production deployments, keep environment-specific configuration out of committed source files.
+> Only use a **publishable / anon** key in browser code — never the `service_role` key. Control access with Row Level Security (RLS) policies.
 
 ### 4. Start the application
 
@@ -128,247 +118,284 @@ For production deployments, keep environment-specific configuration out of commi
 npm start
 ```
 
-Open the application at:
-
-**http://localhost:4200/**
-
-The development server rebuilds the application when source files change.
+`ng serve -o` starts the development server and opens **http://localhost:4200/** in your browser. The app rebuilds automatically when source files change.
 
 ## 📜 Available Scripts
 
 | Command | Description |
 |---|---|
-| `npm start` | Start the development server |
-| `npm run build` | Create a production build |
-| `npm run watch` | Build and watch for changes |
-| `npm test` | Run the configured test command |
-| `npm run ng -- <command>` | Execute an Angular CLI command |
-
-<details>
-  <summary><strong>💡 More command examples</strong></summary>
-
-  ```bash
-  # Production build
-  npm run build
-
-  # Development build with watch mode
-  npm run watch
-
-  # Angular CLI help
-  npm run ng -- help
-  ```
-
-</details>
+| `npm start` | Start the dev server and open the browser (`ng serve -o`) |
+| `npm run build` | Create a production build in `dist/pollapp/` |
+| `npm run watch` | Development build in watch mode |
+| `npm test` | Run the unit tests with Vitest (`ng test`) |
+| `npm run ng -- <command>` | Run any Angular CLI command |
 
 ## 🔄 Application Workflow
 
 ### 📝 Creating and publishing a survey
 
-1. Select **New survey** on the home page.
-2. Enter a survey name and choose a category.
-3. Optionally specify an end date and description.
-4. Add questions and their answer options.
-5. Enable multiple answers where appropriate.
-6. Select **Publish**.
+1. Click **Create survey** on the home page (or in the header of a single survey).
+2. The create-survey dialog opens as an overlay. Clicking outside of it closes it again.
+3. Enter a survey name, choose a **category** (required), set an end date and an optional description.
+4. Add questions with answer options (each new question starts with two answers) and enable **multiple choice** where needed.
+5. Click **Publish**.
 
-After Supabase confirms the insert, the form resets and a publication confirmation appears.
+The survey is inserted into `surveys`, an empty entry is created in `survey_responses`, a confirmation is shown and the form is reset.
 
 ### 🗳️ Completing a survey
 
-1. Open an active survey from the overview.
+1. Open a survey from the overview or the *Ending soon* list (`/showSingleSurvey/:id`).
 2. Select your answers.
 3. Click **Complete survey**.
 
-After successful submission:
+After a successful submission:
 
-- Selected answers remain visible.
-- Answer checkboxes are disabled.
-- The action button changes to **Back to home**.
-- Selecting it returns you to `/`.
+- The new answers are merged into the existing responses in Supabase.
+- The form is disabled, your selection remains visible.
+- The button changes to **Back to home** and navigates to `/`.
+- The results next to the form update immediately (and on all other clients via Realtime).
 
-### 📅 Survey lifecycle
+### 📅 Survey status
 
-| State | Behavior |
+| Status | Condition | Display |
+|---|---|---|
+| Active | End date is today or in the future | `Ends in <n> days`, can be completed |
+| Ending soon | One of the 3 active surveys with the nearest end date | Listed in *Ending soon* |
+| Past | End date is in the past | `Ended on <date>`, can no longer be completed |
+
+### 🏷️ Categories
+
+Defined in [`survey-categories.ts`](src/app/components/shared/utils/survey-categories.ts):
+
+| Value | Label |
 |---|---|
-| Active | Available through the selected end date |
-| Ending soon | Highlighted in the overview |
-| Past | Listed separately from active surveys |
-| Expired | Displays `Ended on <date>` |
+| `allSurveys` | All Surveys (filter only) |
+| `teamActivities` | Team Activities |
+| `healthAndWellness` | Health & Wellness |
+| `gaming` | Gaming & Entertainment |
+| `educationAndLearning` | Education & Learning |
+| `lifestyleAndPreferences` | Lifestyle & Preferences |
+| `technologyAndInnovation` | Technology & Innovation |
 
 ## 🏗️ Architecture
 
-The application follows a feature-oriented Angular structure with shared components, models, utilities, and services.
-
 ```text
 src/
+├── index.html
 ├── main.ts
 ├── styles.scss
+├── styles/base/                         # base styles and @font-face definitions
 └── app/
+    ├── app.ts / app.html                # router outlet + global create-survey dialog
     ├── app.config.ts
     ├── app.routes.ts
     └── components/
         ├── home/
-        │   ├── hero/
+        │   ├── header/
+        │   ├── new-survey/              # intro text + hero animation
+        │   ├── intro-text/
+        │   ├── animation/
         │   └── surveys/
-        ├── create-new-survey/
-        ├── vote/
+        │       ├── overview/            # active/past toggle, category filter, cards
+        │       │   ├── card/
+        │       │   └── selector-button/
+        │       ├── dropdown-menu/       # category filter
+        │       └── are-ending-soon/
+        │           └── ending-survey/
+        ├── create-new-survey-template/
+        │   ├── header/
+        │   ├── survey-form/
+        │   ├── add-new-question/
+        │   └── add-new-answer-button/
+        ├── single-survey-view/
+        │   ├── content/                 # voting form
+        │   └── results/                 # vote statistics
         └── shared/
-            ├── button/
-            ├── interfaces/
-            ├── models/
-            ├── pipes/
-            ├── services/
-            └── utils/
+            ├── button/ second-button/ delete-button/ progress-bar/
+            ├── interfaces/              # Survey, SurveyResponse
+            ├── templates/               # Surveytemplate, SurveyResponseTemplate
+            ├── pipes/                   # capitalize, addQuestionMark
+            ├── services/                # SupabaseService, Dialog
+            └── utils/                   # dates, statistics, categories, merging
 ```
 
 ### 🧭 Routes
 
-| Route | Purpose |
-|---|---|
-| `/` | Discover surveys and create new ones |
-| `/vote/:id` | Vote on and review an individual survey |
-| `**` | Redirect unknown routes to `/` |
+| Route | Component | Purpose |
+|---|---|---|
+| `/` | `Home` | Overview, *Ending soon*, create surveys |
+| `/create_new_survey` | `CreateNewSurveyTemplate` | Survey form as a standalone page |
+| `/showSingleSurvey/:id` | `SingleSurveyView` | Vote on a survey and see its results |
+| `**` | — | Redirect to `/` |
 
 ### ⚡ State and data flow
 
-The root-provided `Survices` service manages the in-memory survey collection using an Angular signal.
+**`SupabaseService`** (root-provided) is the single place for database access and holds the app state as signals:
 
-1. Components retrieve survey data through `getSurveys()`.
-2. Survey creation and voting persist changes to Supabase.
-3. The service updates local state after successful writes.
-4. Supabase Realtime synchronizes changes between connected clients.
-5. Angular `computed` signals and Reactive Forms drive the rendered interface.
+| Member | Description |
+|---|---|
+| `surveys` | `signal<Survey[]>` — all surveys |
+| `surveyResponses` | `signal<Record<number, SurveyResponse \| null>>` — responses per survey ID |
+| `getAllSurveys()` | Loads `surveys` and `survey_responses` in parallel |
+| `createSurvey()` | Inserts a survey and its empty response entry |
+| `updateSurvey()` / `deleteSurvey()` | Updates / deletes a survey |
+| `submitSurveyResponse()` | Loads existing responses, merges the new ones and saves them |
+| `getSurveyResponse()` | Loads the responses of a single survey |
+
+1. Components read data via `computed` signals derived from `surveys` and `surveyResponses`.
+2. Writes go to Supabase; the local signals are updated after a successful write.
+3. A Realtime channel (`survey-changes`) listens for `INSERT`, `UPDATE` and `DELETE` on both tables and updates the signals on all clients.
+
+**`Dialog`** (root-provided) controls the global create-survey overlay via the `openedCreateSurveyDialog` signal.
+
+### 🧩 Shared utilities
+
+| File | Content |
+|---|---|
+| `ends-in-days.ts` | `surveyEndsIn()` (days remaining), `isSurveyAvailable()` (active until end of the end date) |
+| `surveys-ending-soon.ts` | `loadSurveysEndingSoon()` — active surveys sorted by end date (default: 3) |
+| `response-statistic.ts` | Vote count per answer / question and percentages |
+| `survey-response.ts` | `mergeSurveyResponses()` incl. validation and support for the legacy format |
+| `answer-label.ts` | `getAnswerLabel()` — `0 → A`, `1 → B`, … |
+| `survey-categories.ts` | `SURVEY_CATEGORIES` |
 
 ## 🗄️ Data Model
 
-Survey records follow a structure conceptually similar to:
+### `Survey` — table `surveys`
 
 ```ts
 interface Survey {
   id?: number;
   name: string;
-  date: Date;
-  category: string;
-  describing: string;
-  questions: Array<{
-    question: string;
-    multipleChoice: boolean;
-    answers: string[];
-  }>;
-  vote?: Vote;
+  date: string;          // end date, YYYY-MM-DD
+  category: string;      // value from SURVEY_CATEGORIES
+  description: string;
+  questions: Question[]; // stored as JSON
+  response?: SurveyResponse;
+}
+
+interface Question {
+  question: string;
+  multipleChoice: boolean;
+  answers: string[];
 }
 ```
 
-Votes are stored as aggregated answer selections associated with each survey.
+### `SurveyResponse` — table `survey_responses`, column `responses`
 
-See the implementation for the current representation:
+```ts
+interface SurveyResponse {
+  surveyId: number;
+  questions: {
+    questionIndex: number;
+    question: string;
+    answers: {
+      answerIndex: number;
+      answer: string;
+      selected: boolean[]; // one `true` per vote
+    }[];
+  }[];
+}
+```
 
-- `src/app/components/shared/interfaces/vote.ts`
-- `src/app/components/shared/utils/vote.ts`
+Every submission appends its selections to the `selected` arrays, so the number of votes for an answer is the number of `true` entries. Older responses stored as a flat `{ "question0Answer1": true }` object are converted automatically when merging.
 
 ## 🔐 Supabase Setup & Security
 
-Before deploying, verify that:
+Example schema (adjust to your needs):
 
-- The `Survey_Form` table contains compatible columns.
-- The `vote` column supports the application's vote structure, commonly through `jsonb`.
-- Realtime replication is enabled.
-- Row Level Security is enabled.
-- Policies explicitly permit the required reads and writes.
+```sql
+create table public.surveys (
+  id          bigint generated always as identity primary key,
+  name        text not null,
+  date        date not null,
+  category    text not null,
+  description text,
+  questions   jsonb not null default '[]'
+);
 
-The client currently reads survey data and writes survey and vote changes directly. For sensitive or high-concurrency use cases, consider server-side authorization and transactional vote updates.
+create table public.survey_responses (
+  survey_id bigint primary key references public.surveys (id) on delete cascade,
+  responses jsonb
+);
+
+-- Enable Realtime for both tables
+alter publication supabase_realtime add table public.surveys, public.survey_responses;
+```
+
+Before deploying, check that:
+
+- Row Level Security is enabled on both tables.
+- Policies allow the required `select`, `insert`, `update` (and `delete`, if used).
+- Realtime is enabled for `surveys` **and** `survey_responses`.
 
 ## 💻 Development
 
 ### Code guidelines
 
-- Use standalone Angular components.
-- Keep component logic in `.ts`, templates in `.html`, and scoped styles in `.scss`.
-- Prefer Angular signals for shared reactive state and computed views.
-- Use Reactive Forms for survey and voting forms.
-- Place reusable domain logic in `shared/utils`.
-- Document meaningful public TypeScript APIs with TSDoc.
-- Add comments when they clarify non-obvious behavior or design decisions.
+- Standalone components, no NgModules.
+- Logic in `.ts`, template in `.html`, scoped styles in `.scss`.
+- Signals and `computed` for shared state and derived views.
+- Reactive Forms for the survey form and the voting form.
+- Reusable domain logic belongs in `shared/utils`, Supabase access only in `SupabaseService`.
 
-### Adding a feature
+### Tests
 
-1. Identify the appropriate feature folder under `src/app/components/`.
-2. Reuse existing shared components, models, utilities, and services.
-3. Keep Supabase access inside `Survices`.
-4. Update relevant documentation.
-5. Run the production build before opening a pull request.
+Unit tests (`*.spec.ts`) live next to the code and run with Vitest:
 
-## ✅ Validation
+```bash
+npm test
+```
 
-Run the production build:
+### Build
 
 ```bash
 npm run build
 ```
 
-The generated files are written to:
+The output is written to `dist/pollapp/`. Production budgets (`angular.json`):
 
-```text
-dist/poll-app/
-```
-
-Angular's production configuration includes bundle-size budgets. Review any budget warnings before deployment.
-
-## ♿ Accessibility & UX
-
-- Form controls use labels and validation messages.
-- Publication feedback is announced through a live region.
-- Hero animations respect reduced-motion preferences.
-- Submitted answers remain visible while completed inputs are disabled.
+| Budget | Warning | Error |
+|---|---|---|
+| Initial bundle | 500 kB | 1 MB |
+| Component style | 4 kB | 8 kB |
 
 ## 🧰 Troubleshooting
 
 <details>
   <summary><strong>🔌 The app cannot connect to Supabase</strong></summary>
 
-  - Verify the project URL and publishable key.
-  - Inspect the browser's network tab for Supabase errors.
-  - Check the RLS policies.
-  - Confirm the `Survey_Form` table name and column layout.
+  - Check the URL and key in `supabase.ts`.
+  - Check the network tab of your browser for Supabase errors.
+  - Check the RLS policies and the table names `surveys` / `survey_responses`.
 
 </details>
 
 <details>
   <summary><strong>⚡ Realtime updates do not appear</strong></summary>
 
-  - Ensure Realtime is enabled for `Survey_Form`.
-  - Verify that the browser can establish a WebSocket connection.
-  - Inspect the browser console and network logs for policy or connection errors.
+  - Make sure both tables are part of the `supabase_realtime` publication.
+  - Make sure the browser can open a WebSocket connection.
 
 </details>
 
 <details>
   <summary><strong>🍪 A __cf_bm cookie warning appears</strong></summary>
 
-  Supabase may emit a Cloudflare bot-management cookie warning during a Realtime WebSocket handshake. This warning alone does not prove that the connection failed. Verify that records and voting results actually update.
+  Supabase can emit a Cloudflare bot-management cookie warning during the Realtime WebSocket handshake. This alone does not mean the connection failed — check whether surveys and results actually update.
 
 </details>
 
 <details>
-  <summary><strong>📦 The production build reports a budget warning</strong></summary>
+  <summary><strong>🗳️ "This survey has ended and can no longer be completed."</strong></summary>
 
-  Inspect the generated bundle size and consider removing or lazy-loading non-critical dependencies. Budget thresholds are configured in `angular.json`.
+  The end date of the survey is in the past. Past surveys are read-only and only show their results.
 
 </details>
 
-## 🤝 Contributing
-
-Contributions and improvements are welcome!
-
-1. Create a feature branch.
-2. Make focused changes that follow the existing conventions.
-3. Run `npm run build`.
-4. Update documentation where necessary.
-5. Open a pull request describing your changes and validation.
-
 ## 📄 License
 
-No license file is currently included. Add an explicit license before distributing the project or accepting external contributions under defined terms.
+No license file is included yet. Add one before distributing the project.
 
 ---
 
