@@ -1,6 +1,6 @@
 
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../../shared/services/supabase';
 import { CapitalizePipe } from '../../shared/pipes/capitalize-pipe';
 import { AddQuestionMarkPipe } from '../../shared/pipes/add-question-mark-pipe';
@@ -9,11 +9,12 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { SurveyResponseTemplate } from '../../shared/templates/survey-response-model';
 import { getAnswerLabel as getAnswerLabelIndex } from '../../shared/utils/answer-label';
 import { isSurveyAvailable } from '../../shared/utils/ends-in-days';
+import { AndToCharPipePipe } from '../../shared/pipes/and-to-char-pipe-pipe';
 
 /** Displays the questions of a survey and allows answering them. */
 @Component({
   selector: 'app-content',
-  imports: [CapitalizePipe, AddQuestionMarkPipe, SecondButton, ReactiveFormsModule],
+  imports: [CapitalizePipe, AddQuestionMarkPipe, SecondButton, ReactiveFormsModule, AndToCharPipePipe, RouterLink],
   templateUrl: './content.html',
   styleUrl: './content.scss',
 })

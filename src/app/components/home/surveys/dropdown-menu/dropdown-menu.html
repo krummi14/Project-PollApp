@@ -6,7 +6,7 @@
     </button>
 
     @if (isOpen) {
-    <ul id="survey-category-options" class="category-options" role="listbox" aria-label="Sort by categories">
+    <ul id="survey-category-options" class="category_options" role="listbox" aria-label="Sort by categories">
         @for (category of categories; track category.value; let index = $index) {
         <li #categoryOption role="option" tabindex="-1" [attr.aria-selected]="selectedCategory == category.value"
             (click)="selectCategory(category)" (keydown)="onOptionKeyDown($event, index)">

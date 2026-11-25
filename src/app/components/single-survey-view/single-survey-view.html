@@ -1,15 +1,30 @@
-<section class="survey_editor">
+<main class="survey_main">
+    <section class="survey_editor">
 
-    <header class="survey_editor_header">
-        <img src="/assets/img/poll_speaking_bubble_black.png" alt="Poll App Dark Logo" width="120px" height="44px">
+        <header class="survey_editor_header">
+            <img src="assets/img/poll_speaking_bubble_black.png" alt="Poll App Dark Logo" width="120px" height="44px">
 
-        <app-button (click)="dialog.openCreateSurveyDialog()">
-            Create survey
-        </app-button>
-    </header>
+            <app-button (click)="dialog.openCreateSurveyDialog()">
+                Create survey
+            </app-button>
+        </header>
 
-    <section class="content_and_results">
-        <app-content></app-content>
-        <app-results></app-results>
+        <section class="content_and_results">
+            <app-content></app-content>
+            <div class="survey_results_panel">
+                <button type="button" class="survey_toggeled_results" [attr.aria-expanded]="surveyResultsAreVisible()"
+                    aria-controls="survey-results" (click)="toggleSurveyResultCondition()">
+                    {{ surveyResultsAreVisible() ? 'close results' : 'show results' }}
+                    <img class="survey_results_toggle_icon"
+                        [class.survey_results_toggle_icon--rotated]="surveyResultsAreVisible()"
+                        src="assets/icons/arrow_drop_down_mobile.svg" alt="">
+                    <img class="survey_results_toggle_icon survey_results_toggle_icon--hover"
+                        [class.survey_results_toggle_icon--rotated]="surveyResultsAreVisible()"
+                        src="assets/icons/arrow_drop_up_mobile.svg" alt="">
+                </button>
+                <app-results id="survey-results"
+                    [class.survey_results--hidden]="!surveyResultsAreVisible()"></app-results>
+            </div>
+        </section>
     </section>
-</section>
+</main>

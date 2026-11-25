@@ -1,17 +1,8 @@
 .img_animation {
     position: relative;
+    isolation: isolate;
     width: 424px;
     height: 416px;
-}
-
-.animation_hover_area {
-    position: absolute;
-    width: 50%;
-    height: 90%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1111;
 }
 
 .smartphone {
@@ -34,10 +25,6 @@
     transition: transform 250ms ease-out;
 }
 
-.animation_hover_area:hover~.speech_bubble {
-    transform: translate(-50%, -50%) translate(-20px, -10px) scale(1.5);
-}
-
 .questionmark_bubble {
     position: absolute;
     width: 88px;
@@ -50,23 +37,15 @@
     transition: transform 250ms ease-out;
 }
 
-.animation_hover_area:hover~.questionmark_bubble {
-    transform: translate(-50%, -50%) translate(-10px, 0px) rotate(-20deg);
-}
-
 .check_bubble {
     position: absolute;
-    width: 88x;
+    width: 88px;
     height: 88px;
     top: 80%;
     left: 70%;
     transform: translate(-50%, -50%);
     z-index: 1;
     transition: transform 250ms ease-out;
-}
-
-.animation_hover_area:hover~.check_bubble {
-    transform: translate(-50%, -50%) translate(50px, 5px) rotate(5deg);
 }
 
 .star_bubble {
@@ -80,16 +59,103 @@
     transition: transform 250ms ease-out;
 }
 
-.animation_hover_area:hover~.star_bubble {
-    transform: translate(-50%, -50%) translate(-15px, 5px);
+.animation_hover_area {
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+
+    &:hover {
+        &~.speech_bubble {
+            transform: translate(-50%, -50%) translate(-20px, -10px) scale(1.5);
+        }
+
+        &~.questionmark_bubble {
+            transform: translate(-50%, -50%) translate(-10px, 0px) rotate(-20deg);
+        }
+
+        &~.check_bubble {
+            transform: translate(-50%, -50%) translate(50px, 5px) rotate(5deg);
+        }
+
+        &~.star_bubble {
+            transform: translate(-50%, -50%) translate(-15px, 5px);
+        }
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
 
     .speech_bubble,
-    .question_mark_bubble,
+    .questionmark_bubble,
     .check_bubble,
     .star_bubble {
         transition: none;
+    }
+}
+
+@media (max-width: 450px) {
+    .img_animation {
+        display: none;
+    }
+}
+
+:host(.mobile_img_animation) {
+    display: block;
+    width: 250px;
+    height: 250px;
+}
+
+:host(.mobile_img_animation) .img_animation {
+    display: block;
+    transform: scale(0.58685);
+    transform-origin: top left;
+}
+
+:host(.mobile_img_animation) .animation_hover_area {
+    display: none;
+}
+
+:host(.mobile_img_animation) .speech_bubble {
+    animation: mobile-speech-bubble 700ms ease-out forwards;
+}
+
+:host(.mobile_img_animation) .questionmark_bubble {
+    animation: mobile-question-mark-bubble 700ms ease-out 100ms forwards;
+}
+
+:host(.mobile_img_animation) .check_bubble {
+    animation: mobile-check-bubble 700ms ease-out 200ms forwards;
+}
+
+:host(.mobile_img_animation) .star_bubble {
+    animation: mobile-star-bubble 700ms ease-out 300ms forwards;
+}
+
+
+@keyframes mobile-speech-bubble {
+    to {
+        transform: translate(-50%, -50%) translate(-20px, -10px) scale(1.5);
+    }
+}
+
+@keyframes mobile-question-mark-bubble {
+    to {
+        transform: translate(-50%, -50%) translate(-10px, 0) rotate(-20deg);
+    }
+}
+
+@keyframes mobile-check-bubble {
+    to {
+        transform: translate(-50%, -50%) translate(50px, 5px) rotate(5deg);
+    }
+}
+
+@keyframes mobile-star-bubble {
+    to {
+        transform: translate(-50%, -50%) translate(-15px, 5px);
     }
 }

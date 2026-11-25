@@ -2,3 +2,30 @@ p {
     margin-top: 24px;
     margin-bottom: 40px;
 }
+
+app-animation.mobile_img_animation {
+    display: none;
+}
+
+@media (max-width: 1080px) {
+    h1 {
+        font-size: 62px;
+        font-weight: 400;
+    }
+}
+
+@media (max-width: 450px) {
+    .intro_text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    app-animation.mobile_img_animation {
+        display: block;
+    }
+
+    p {
+        font-size: 18px;
+    }
+}

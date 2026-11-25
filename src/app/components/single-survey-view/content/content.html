@@ -2,11 +2,13 @@
 
     @if (survey(); as selectedSurvey) {
     <div>
-        <p class="content_published">Published</p>
-
+        <div class="content_published_button">
+            <p class="content_published">Published</p>
+            <button type="button" routerLink="/">X</button>
+        </div>
         <div class="content_header">
             <p>Ends on {{ selectedSurvey.date }}</p>
-            <p>{{ selectedSurvey.category }}</p>
+            <p>{{ selectedSurvey.category | andToCharPipe }}</p>
         </div>
 
         <h3>{{ selectedSurvey.name }}</h3>

@@ -1,4 +1,37 @@
 .new_survey {
-    display: flex;
+    display: grid;
+    grid-template-areas:
+        'description animation'
+        'action animation';
+    grid-template-columns: minmax(0, 1fr) auto;
     justify-content: space-between;
+}
+
+app-new-survey-description {
+    grid-area: description;
+}
+
+app-animation {
+    grid-area: animation;
+}
+
+.new_survey_button {
+    grid-area: action;
+    justify-self: start;
+}
+
+@media (max-width: 1080px) {
+    .new_survey {
+        grid-template-areas:
+            'description'
+            'animation'
+            'action';
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .new_survey_button {
+        justify-self: center;
+        margin-top: 54px;
+    }
 }

@@ -33,3 +33,29 @@
         border-top-right-radius: 16px;
     }
 }
+
+@media (max-width: 1080px) {
+    :host {
+        align-self: flex-start;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .survey_closing_section {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .list_of_ending_surveys {
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+        justify-content: flex-start;
+        gap: 16px;
+        overflow-x: auto;
+    }
+
+    .list_of_ending_surveys>survey_card {
+        flex: 0 0 310px;
+    }
+}

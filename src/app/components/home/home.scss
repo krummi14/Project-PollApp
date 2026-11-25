@@ -1,7 +1,12 @@
 @use 'base/base' as base;
 
+.home {
+    width: min(100%, 1440px);
+}
+
 :host {
-    display: block;
+    display: flex;
+    justify-content: center;
     box-sizing: border-box;
     min-height: 100vh;
     padding: 40px 112px;
@@ -13,4 +18,14 @@
 .hero {
     display: block;
     margin-top: 96px;
+}
+
+@media (max-width: 1270px) {
+    :host {
+        padding: 48px 16px;
+    }
+
+    .hero {
+        margin-top: 54px;
+    }
 }

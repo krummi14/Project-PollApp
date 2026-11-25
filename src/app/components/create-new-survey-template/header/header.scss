@@ -36,3 +36,18 @@ header {
         padding: 2px 6px;
     }
 }
+
+@media (max-width: 550px) {
+    header {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .close_button {
+        justify-content: flex-start;
+
+        &_context {
+            display: none;
+        }
+    }
+}
