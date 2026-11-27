@@ -24,9 +24,11 @@
             }
             @for (answer of survey.answers; track $index; let answerIndex = $index) {
             <div class="vote_container">
+                @if (isSurveyAvailable(selectedSurvey.date)) {
                 <input type="checkbox" [id]="getControlName(questionIndex, answerIndex)"
                     [formControlName]="getControlName(questionIndex, answerIndex)"
                     (change)="deselectOtherAnswers(questionIndex, answerIndex, survey.multipleChoice, survey.answers.length, $any($event.target).checked)">
+                }
                 <p><span class="vote_container_label">{{ getAnswerLabel(answerIndex) }}. </span><span
                         class="vote_container_answer">
                         {{ answer | capitalize }}</span></p>
@@ -34,11 +36,10 @@
             }
         </div>
         }
-        @if (isSurveyAvailable(selectedSurvey.date) || isSurveyCompleted()) {
         <app-second-button class="vote_content__submit" type="submit">
-            {{ isSurveyCompleted() ? 'Back to home' : 'Complete survey' }}
+            {{ isSurveyCompleted() || !isSurveyAvailable(selectedSurvey.date) ? 'Back to home' : 'Complete survey' }}
         </app-second-button>
-        }
+
     </form>
 
     }

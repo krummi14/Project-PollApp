@@ -2,15 +2,17 @@
     <section class="survey_editor">
 
         <header class="survey_editor_header">
-            <img src="assets/img/poll_speaking_bubble_black.png" alt="Poll App Dark Logo" width="120px" height="44px">
-
+            <a routerLink="/" aria-label="Back to home">
+                <img src="assets/img/poll_speaking_bubble_black.png" alt="Poll App Dark Logo" width="120px"
+                    height="44px">
+            </a>
             <app-button (click)="dialog.openCreateSurveyDialog()">
                 Create survey
             </app-button>
         </header>
 
         <section class="content_and_results">
-            <app-content></app-content>
+            <app-content (votePreviewChange)="updateVotePreview($event)"></app-content>
             <div class="survey_results_panel">
                 <button type="button" class="survey_toggeled_results" [attr.aria-expanded]="surveyResultsAreVisible()"
                     aria-controls="survey-results" (click)="toggleSurveyResultCondition()">
@@ -23,6 +25,7 @@
                         src="assets/icons/arrow_drop_up_mobile.svg" alt="">
                 </button>
                 <app-results id="survey-results"
+                    [votePreview]="votePreview()"
                     [class.survey_results--hidden]="!surveyResultsAreVisible()"></app-results>
             </div>
         </section>

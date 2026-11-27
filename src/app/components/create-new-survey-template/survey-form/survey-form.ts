@@ -7,7 +7,8 @@ import { SecondButton } from '../../shared/second-button/second-button';
 import { SupabaseService } from '../../shared/services/supabase';
 import { Surveytemplate } from '../../shared/templates/surveytemplate';
 import { SURVEY_CATEGORIES } from '../../shared/utils/survey-categories';
-
+import { Router } from '@angular/router';
+import { Dialog } from '../../shared/services/dialog';
 /**
  * Form for creating and publishing a new survey.
  *
@@ -42,6 +43,8 @@ export class SurveyForm implements OnDestroy {
   readonly questions = this.surveyForm.controls.question;
   /** Service for accessing the Supabase database. */
   surveyService: SupabaseService = inject(SupabaseService);
+  private readonly dialog = inject(Dialog);
+  private readonly router = inject(Router);
   /** Timer handle for automatically hiding the publish confirmation. */
   private publishedConfirmationTimeout?: ReturnType<typeof setTimeout>;
 
@@ -64,7 +67,8 @@ export class SurveyForm implements OnDestroy {
     try {
       const value = this.surveyForm.getRawValue();
       const surveyData = new Surveytemplate({
-        name: value.name ?? '', date: value.date ? new Date(value.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        name: value.name ?? '',
+        date: value.date ? new Date(value.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         category: value.category ?? '',
         description: value.description ?? '',
         questions: value.question.map((question) => ({
@@ -73,17 +77,18 @@ export class SurveyForm implements OnDestroy {
           answers: question.answers.map((answer) => answer ?? ''),
         })),
       });
-      await this.surveyService.createSurvey(surveyData);
-      this.showPublishedConfirmation();
-      this.surveyForm.controls.name.reset('');
-      this.surveyForm.controls.date.reset(new Date(2026, 10, 25));
-      this.surveyForm.controls.description.reset('');
-      this.questions.clear();
-      this.questions.push(this.createQuestionForm());
-      this.surveyForm.markAsPristine();
-      this.surveyForm.markAsUntouched();
+      const createdSurvey = await this.surveyService.createSurvey(surveyData);
+      if (createdSurvey.id == null) {
+        throw new Error('Saved survey is missing an ID.');
+      }
+
+      this.publishedConfirmationIsVisible.set(true);
+      this.publishedConfirmationTimeout = setTimeout(() => {
+        this.dialog.closeCreateSurveyDialog();
+        void this.router.navigate(['/vote', createdSurvey.id]);
+      }, 3_000);
     } catch (error) {
-      console.error('Error publishing survey:', error);
+      console.error('Error while publishing survey:', error);
     }
   }
 
@@ -134,20 +139,5 @@ export class SurveyForm implements OnDestroy {
       default:
         break;
     }
-  }
-
-  /**
-   * Shows the publish confirmation for 4 seconds.
-   * A timer that is already running is restarted.
-   */
-  private showPublishedConfirmation() {
-    if (this.publishedConfirmationTimeout) {
-      clearTimeout(this.publishedConfirmationTimeout);
-    }
-    this.publishedConfirmationIsVisible.set(true);
-    this.publishedConfirmationTimeout = setTimeout(() => {
-      this.publishedConfirmationIsVisible.set(false);
-      this.publishedConfirmationTimeout = undefined;
-    }, 4_000);
   }
 }

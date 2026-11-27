@@ -147,9 +147,10 @@ export class SupabaseService implements OnDestroy {
    * Saves a new survey and creates an empty response row for it.
    *
    * @param survey - The survey to save (an existing `id` is ignored)
+   * @returns The saved survey including its generated `id`
    * @throws Supabase error if saving fails
    */
-  async createSurvey(survey: Surveytemplate): Promise<void> {
+  async createSurvey(survey: Surveytemplate): Promise<Survey> {
     const { id, ...surveyData } = survey;
     const { data, error } = await this.supabase
       .from('surveys')
@@ -172,6 +173,7 @@ export class SupabaseService implements OnDestroy {
       throw responseError;
     }
     this.upsertSurveyResponse(newSurvey.id!, null);
+    return newSurvey;
   }
 
   /**

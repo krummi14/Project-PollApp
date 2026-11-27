@@ -1,5 +1,5 @@
 
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, output, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../../shared/services/supabase';
 import { CapitalizePipe } from '../../shared/pipes/capitalize-pipe';
@@ -39,6 +39,9 @@ export class Content {
   /** Whether the survey has already been submitted. */
   readonly isSurveyCompleted = signal(false);
 
+  /** Emits the current (unsaved) answer selection for the live results preview. */
+  readonly votePreviewChange = output<Record<string, boolean>>();
+
   /** Creates a form control for every answer option of the loaded survey. */
   private readonly formEffect = effect(() => {
     const survey = this.survey();
@@ -71,18 +74,13 @@ export class Content {
    * @throws Error if the survey was not found or has already ended
    */
   async onSubmit() {
-    if (this.isSurveyCompleted()) {
-      await this.router.navigateByUrl('/');
-      return;
-    }
     const survey = this.survey();
     if (survey?.id == undefined) {
       throw new Error('Survey was not found.');
     }
-    if (!this.isSurveyAvailable(survey.date)) {
-      throw new Error(
-        'This survey has ended and can no longer be completed.'
-      );
+    if (this.isSurveyCompleted() || !this.isSurveyAvailable(survey.date)) {
+      await this.router.navigateByUrl('/');
+      return;
     }
     const surveyResponse = new SurveyResponseTemplate(
       survey,
@@ -94,6 +92,7 @@ export class Content {
     );
     this.surveyResponseForm.disable();
     this.isSurveyCompleted.set(true);
+    this.votePreviewChange.emit({});
   }
 
   /**
@@ -106,16 +105,16 @@ export class Content {
    * @param isSelected - Whether the answer was selected (rather than deselected)
    */
   deselectOtherAnswers(questionIndex: number, selectedAnswerIndex: number, multipleChoice: boolean, answerCount: number, isSelected: boolean) {
-    if (multipleChoice || !isSelected) {
-      return;
-    }
-    for (let answerIndex = 0; answerIndex < answerCount; answerIndex += 1) {
-      if (answerIndex != selectedAnswerIndex) {
-        this.surveyResponseForm.controls[
-          this.getControlName(questionIndex, answerIndex)
-        ].setValue(false);
+    if (!multipleChoice && isSelected) {
+      for (let answerIndex = 0; answerIndex < answerCount; answerIndex += 1) {
+        if (answerIndex != selectedAnswerIndex) {
+          this.surveyResponseForm.controls[
+            this.getControlName(questionIndex, answerIndex)
+          ].setValue(false);
+        }
       }
     }
+    this.votePreviewChange.emit(this.surveyResponseForm.getRawValue());
   }
 
   /**
